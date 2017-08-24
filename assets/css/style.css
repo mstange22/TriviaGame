@@ -1,0 +1,124 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+	background-color: #cccccc;
+	margin-bottom: 80px;
+}
+
+#navbar-container {
+	max-width: 960px;
+	width: 100%;
+	margin: auto;
+}
+
+.navbar {
+	border: none;
+}
+
+#trivia-nav {
+	height: 80px;
+	text-align: center;
+	font-size: 36px;
+	font-family: inherit;
+	color: #ffffff;
+	background-color: #286090;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border: none;
+	border-bottom: 2px solid #000000;
+}
+
+.jumbotron {
+	margin: 0 auto;
+	max-width: 980px;
+	width: 95%;
+	max-height: 95%;
+	border: 2px solid #000000;
+	border-radius: 4px;
+	background-color: #ffffff;
+	padding: 20px;
+	margin-bottom: 20px;
+}
+
+#main-game-panel {
+	min-height: 250px;
+	text-align: center;
+}
+
+#main-game-form {
+	display: none;
+	margin: auto;
+}
+
+#start-button, #done-button, #reset-button {
+	margin: 0 auto;
+	min-width: 100px;
+	border: 2px solid #000000;
+}
+
+#start-button {
+	display: block;
+}
+
+#done-button {
+	display: none;
+}
+
+#reset-button {
+	display: none;
+}
+
+#buttons {
+	height: 50px;
+}
+
+#timer {
+	height: 50px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#footer {
+	height: 80px;
+	width: 100%;
+	background-color: #286090;
+	border-top: 2px solid #000000;
+	color: white;
+    text-align: center;
+    padding: 25px;
+    font-size: 12px;
+	position: absolute;
+	bottom: 0;
+}
+
+@media screen (max-width: 640px) {
+	#trivia-nav {
+		height: 40px;
+		text-align: center;
+		font-size: 18px;
+		font-family: inherit;
+		color: #ffffff;
+		background-color: #337ab7;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		border: none;
+		border-bottom: 1px solid #000000;
+	}
+
+	#footer {
+		height: 40px;
+		width: 100%;
+		background-color: #337ab7;
+		border-top: 1px solid #000000;
+		position: absolute;
+		bottom: 0px;
+		color: white;
+	    text-align: center;
+	    padding: 6px;
+	    font-size: 8px;
+	}
+
+}
