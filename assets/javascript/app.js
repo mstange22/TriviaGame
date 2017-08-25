@@ -8,7 +8,7 @@
 var numCorrect = 0;
 var numIncorrect = 0;
 var numUnanswered = 0;
-var timer = 5;
+var timer = 3;
 var originalTimer = timer;
 var intervalId;
 var questionCounter = 0;
@@ -70,7 +70,7 @@ $(document).ready(function() {
 	$("#start-button").click(function() {
 
 		$("#start-button").css("display", "none");
-		$("#done-button").css("display", "block");
+		$(".jumbotron").css("background-image", "none");
 
 		getQuestions();
 		play();
@@ -83,7 +83,7 @@ $(document).ready(function() {
     	evaluateAnswers(this.children[0].innerText);
 		displayGameResults();
 
-		setTimeout(reset, 2000);
+		setTimeout(reset, 1000);
 	});
 
 	$("#reset-button").click(function() {
@@ -301,7 +301,7 @@ function decrement() {
 		stop();
 		isUnanswered = true;
 		displayGameResults();
-		setTimeout(reset, 2000);
+		setTimeout(reset, 1000);
 	}
 }
 
