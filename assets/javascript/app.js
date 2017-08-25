@@ -5,13 +5,14 @@
  * Assignment #5 
  */
 
+var maxQuestions = 50;
+var questionCounter = 0;
 var numCorrect = 0;
 var numIncorrect = 0;
 var numUnanswered = 0;
-var timer = 3;
+var timer = 5;
 var originalTimer = timer;
 var intervalId;
-var questionCounter = 0;
 var correctAnswer = false;
 var isUnanswered = false;
 
@@ -42,19 +43,6 @@ var capitals = [
     "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
 ];
 
-// var capitals = [
-// 	"Montgomery", "Juneau", "Phoenix", "Little Rock", "Sacramento",
-//     "Denver", "Hartford", "Dover", "Tallahassee", "Atlanta",
-//     "Honolulu", "Boise", "Springfield", "Indianapolis", "Des Moines",
-//     "Topeka", "Frankfort", "Baton Rouge", "Augusta", "Annapolis",
-//     "Boston", "Lansing", "Saint Paul", "Jackson", "Jefferson City",
-//     "Helena", "Lincoln", "Carson City", "Concord", "Trenton",
-//     "Santa Fe", "Albany", "Raleigh", "Bismark", "Columbus",
-//     "Oklahoma City", "Salem", "Harrisburg", "Providence", "Columbia",
-//     "Pierre", "Nashville", "Austin", "Salt Lake City", "Montpelier",
-//     "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
-// ];
-
 // The game array that will hold all of the states and answers
 var game = [];
 
@@ -83,12 +71,16 @@ $(document).ready(function() {
     	evaluateAnswers(this.children[0].innerText);
 		displayGameResults();
 
-		setTimeout(reset, 1000);
+		if (questionCounter !== maxQuestions) {
+
+			setTimeout(reset, 1000);
+		}
+
 	});
 
 	$("#reset-button").click(function() {
 
-		$("#reset-button").css("display", "none");	
+		$("#reset-button").css("display", "none");
 
 			numCorrect = 0;
 			numIncorrect = 0;
