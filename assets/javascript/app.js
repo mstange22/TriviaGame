@@ -5,7 +5,7 @@
  * Assignment #5 
  */
 
-var maxQuestions = 5;
+var maxQuestions = 50;
 var questionCounter = 0;
 var numCorrect = 0;
 var numIncorrect = 0;
