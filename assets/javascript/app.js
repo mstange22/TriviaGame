@@ -15,6 +15,7 @@ var originalTimer = timer;
 var intervalId;
 var correctAnswer = false;
 var isUnanswered = false;
+var correctCapital = "";
 
 var states = [
 	"Alabama", "Alaska", "Arizona", "Arkansas", "California",
@@ -69,7 +70,7 @@ $(document).ready(function() {
     	stop();
 
     	evaluateAnswers(this.children[0].innerText);
-		displayGameResults();
+		displayGameResults(this);
 
 		if (questionCounter < maxQuestions) {
 
@@ -80,7 +81,6 @@ $(document).ready(function() {
 
 			$("#reset-button").css("display", "block");
 		}
-
 	});
 
 	$("#reset-button").click(function() {
@@ -186,6 +186,9 @@ function play() {
  */
 function askQuestion() {
 
+	// capture the correct capital
+	correctCapital = game[questionCounter].answers[0];
+
 	var randomNumbers = [0, 1, 2, 3];
 
 	Math.floor(Math.random() * randomNumbers.length)
@@ -276,6 +279,9 @@ function displayGameResults() {
 		else {
 
 		$("#message").html("Incorrect");
+		$("#message").append("<h3>The capital is of " +
+					game[questionCounter - 1].state + " is " +
+					game[questionCounter - 1].answers[0].answer + "</h3>");
 		numIncorrect++;
 		correctAnswer = false;
 		}
