@@ -320,7 +320,6 @@ function decrement() {
 			$("#message").append("<h2>Quiz Complete!</h2>");
 			$("#reset-button").css("display", "block");
 		}
-		// setTimeout(reset, 1000);
 	}
 }
 
