@@ -44,7 +44,8 @@ h2 {
 	border-radius: 4px;
 	background-image: url("../images/us-map.jpg");
 	background-repeat: no-repeat;
-	background-position: center;
+	background-position: 50% 20px;
+	background-size: 60%;
 	background-color: #ffffff;
 	padding: 20px;
 	margin-bottom: 20px;
