@@ -5,7 +5,7 @@
  * Assignment #5 
  */
 
-var maxQuestions = 50;
+var maxQuestions = 5;
 var questionCounter = 0;
 var numCorrect = 0;
 var numIncorrect = 0;
@@ -79,7 +79,7 @@ $(document).ready(function() {
 
 		else {
 
-			$("#message").append("<h1>Quiz Complete!</h1>");
+			$("#message").append("<h2>Quiz Complete!</h2>");
 			$("#reset-button").css("display", "block");
 		}
 	});
@@ -225,8 +225,6 @@ function askQuestion() {
  */
 function evaluateAnswers(answer) {
 
-	var objectToTest = {}
-
 	if(answer === answer1.answer) {
 		correctAnswer = answer1.isCorrect;
 	}
@@ -264,6 +262,9 @@ function displayGameResults() {
 	if(isUnanswered) {
 
 		$("#message").html("Unanswered");
+		$("#message").append("<h3>The capital is of <b>" +
+					game[questionCounter - 1].state + "</b> is <b>" +
+					game[questionCounter - 1].answers[0].answer + "</b></h3>");
 		numUnanswered++;
 		isUnanswered = false;
 	}
@@ -280,9 +281,9 @@ function displayGameResults() {
 		else {
 
 		$("#message").html("Incorrect");
-		$("#message").append("<h3>The capital is of " +
-					game[questionCounter - 1].state + " is " +
-					game[questionCounter - 1].answers[0].answer + "</h3>");
+		$("#message").append("<h3>The capital is of <b>" +
+					game[questionCounter - 1].state + "</b> is <b>" +
+					game[questionCounter - 1].answers[0].answer + "</b></h3>");
 		numIncorrect++;
 		correctAnswer = false;
 		}
@@ -302,10 +303,24 @@ function decrement() {
 	$("#timer").html("<h2>" + time + "</h2>");
 
 	if(timer === 0) {
+
 		stop();
+
 		isUnanswered = true;
+
 		displayGameResults();
-		setTimeout(reset, 1000);
+
+		if (questionCounter < maxQuestions) {
+
+			setTimeout(reset, 1000);
+		}
+
+		else {
+
+			$("#message").append("<h2>Quiz Complete!</h2>");
+			$("#reset-button").css("display", "block");
+		}
+		// setTimeout(reset, 1000);
 	}
 }
 
