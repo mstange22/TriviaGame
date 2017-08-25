@@ -71,9 +71,14 @@ $(document).ready(function() {
     	evaluateAnswers(this.children[0].innerText);
 		displayGameResults();
 
-		if (questionCounter !== maxQuestions) {
+		if (questionCounter < maxQuestions) {
 
 			setTimeout(reset, 1000);
+		}
+
+		else {
+
+			$("#reset-button").css("display", "block");
 		}
 
 	});
@@ -318,7 +323,6 @@ function timeConverter(t) {
 
 	return minutes + ":" + seconds;
 }
-
 
 function stop() {
 	
