@@ -51,19 +51,27 @@ h3:hover {
 	margin-bottom: 20px;
 }
 
-#top-row, #bottom-row {
-	height: 60px;
+#top-row {
+	height: 70px;
+}
+
+#bottom-row {
+	height: 50px;
 }
 
 #main-game-panel {
-	height: 200px;
+	height: 280px;
 	text-align: center;
 }
 
-#start-button, #reset-button {
+#start-button, #reset-button, .answer{
 	margin: 0 auto;
 	min-width: 100px;
 	border: 2px solid #000000;
+}
+
+.answer {
+	min-width: 150px;
 }
 
 #start-button {

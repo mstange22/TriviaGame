@@ -1,3 +1,10 @@
+/*
+ * State Capitals Trivia
+ * Michael Stange
+ * UCSD Coding Boot Camp
+ * Assignment #5 
+ */
+
 var numCorrect = 0;
 var numIncorrect = 0;
 var numUnanswered = 0;
@@ -35,26 +42,69 @@ var capitals = [
     "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
 ];
 
-var capitals = [
-	"Montgomery", "Juneau", "Phoenix", "Little Rock", "Sacramento",
-    "Denver", "Hartford", "Dover", "Tallahassee", "Atlanta",
-    "Honolulu", "Boise", "Springfield", "Indianapolis", "Des Moines",
-    "Topeka", "Frankfort", "Baton Rouge", "Augusta", "Annapolis",
-    "Boston", "Lansing", "Saint Paul", "Jackson", "Jefferson City",
-    "Helena", "Lincoln", "Carson City", "Concord", "Trenton",
-    "Santa Fe", "Albany", "Raleigh", "Bismark", "Columbus",
-    "Oklahoma City", "Salem", "Harrisburg", "Providence", "Columbia",
-    "Pierre", "Nashville", "Austin", "Salt Lake City", "Montpelier",
-    "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
-];
+// var capitals = [
+// 	"Montgomery", "Juneau", "Phoenix", "Little Rock", "Sacramento",
+//     "Denver", "Hartford", "Dover", "Tallahassee", "Atlanta",
+//     "Honolulu", "Boise", "Springfield", "Indianapolis", "Des Moines",
+//     "Topeka", "Frankfort", "Baton Rouge", "Augusta", "Annapolis",
+//     "Boston", "Lansing", "Saint Paul", "Jackson", "Jefferson City",
+//     "Helena", "Lincoln", "Carson City", "Concord", "Trenton",
+//     "Santa Fe", "Albany", "Raleigh", "Bismark", "Columbus",
+//     "Oklahoma City", "Salem", "Harrisburg", "Providence", "Columbia",
+//     "Pierre", "Nashville", "Austin", "Salt Lake City", "Montpelier",
+//     "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
+// ];
 
+// The game array that will hold all of the states and answers
 var game = [];
 
+// Objects for each answer for a given state
 var answer1 = {};
 var answer2 = {};
 var answer3 = {};
 var answer4 = {};
 
+
+$(document).ready(function() {
+
+	$("#start-button").click(function() {
+
+		$("#start-button").css("display", "none");
+		$("#done-button").css("display", "block");
+
+		getQuestions();
+		play();
+	});
+
+    $(".input").on("click", function() {
+
+    	stop();
+
+    	evaluateAnswers(this.children[0].innerText);
+		displayGameResults();
+
+		setTimeout(reset, 2000);
+	});
+
+	$("#reset-button").click(function() {
+
+		$("#reset-button").css("display", "none");	
+
+			numCorrect = 0;
+			numIncorrect = 0;
+			numUnanswered = 0;
+			questionCounter = 0;
+
+			reset();		
+	});
+});
+
+/*
+ * getQuestions()
+ * Builds the game array by first iterating over the states and capitals array, then
+ * pushing random capitals into the answers array (after confirming no duplicates).
+ * Tedious, but it works.
+ */
 function getQuestions() {
 
 	var tempQuestion = {};
@@ -62,13 +112,7 @@ function getQuestions() {
 
 	for(var i = 0; i < states.length; i++) {
 		
-		tempQuestion = {state: states[i],
-			answers: [	{answer: capitals[i], isCorrect: true}
-			// {answer: capitals[Math.floor(Math.random() * capitals.length)], isCorrect: false},
-			// {answer: capitals[Math.floor(Math.random() * capitals.length)], isCorrect: false},
-			// {answer: capitals[Math.floor(Math.random() * capitals.length)], isCorrect: false}
-			]
-		};
+		tempQuestion = {state: states[i], answers: [{answer: capitals[i], isCorrect: true}]};
 
 		game.push(tempQuestion);
 
@@ -88,7 +132,7 @@ function getQuestions() {
 		// if here, then it must be ok
 		game[i].answers.push(tempAnswer);
 
-		// do it again...
+		// do it again for the third element...
 
 		tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
 																			isCorrect: false};	
@@ -124,40 +168,52 @@ function getQuestions() {
 }
 
 /*
- * formatAnswers()
- * Eliminate duplicates introduced at initialization
+ * play()
+ * Starts the timer and asks a question.
  */
-// function formatAnswers() {
+function play() {
 
-// 	for(var i = 0; i < game.length; i++) {
+	var time = timeConverter(timer);
+	$("#timer").html("<h2>" + time + "</h2>");
+	$("#timer").css("display", "block");
+	$("#message").html("");
 
-// 		for(var j = 1; j < game[i].answers.length; j++) {
+	intervalId = setInterval(decrement, 1000);
 
-// 			// if there are duplicates...
-// 			while(	game[i].answers[j].answer === game[i].answers[0].answer ||
-// 					game[i].answers[j].answer === game[i].answers[0].answer ||
-// 					tempAnswers[j].answer === game[i].answers[0].answer ||
-// 					tempAnswers[j].answer === game[i].answers[0].answer    ) {
+	askQuestion();
+}
 
-// 				// get a new random answer from capitals array
-// 				game[i].answers[j].answer = capitals[Math.floor(Math.random() * capitals.length)];
-// 			}
-// 		}
+/*
+ * askQuestion()
+ * Display the state and then randomly display the 4 possible answers.
+ */
+function askQuestion() {
 
-// 		// randomly put the temp answers back into the game array
-// 		for (var k = 0; k < game[i].answers.length; k++) {
+	var randomNumbers = [0, 1, 2, 3];
 
-// 			// get a random number to remove from tempAnswers
-// 			var randomNum = Math.floor(Math.random() * tempAnswers.length);
+	Math.floor(Math.random() * randomNumbers.length)
 
-// 			// if(!game[i].answers[k] == tempAnswers[randomNum])
-			
-// 			game[i].answers.splice(k, 1, tempAnswers[randomNum]);
-// 			tempAnswers.splice(randomNum, 1);
-// 		}
-// 	}
-// }
+	// Display the state
+	$("#state").html("<h2>" + game[questionCounter].state + "</h2>");
 
+	answer1 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
+													randomNumbers.length), 1)];
+	answer2 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
+													randomNumbers.length), 1)];
+	answer3 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
+													randomNumbers.length), 1)];
+	answer4 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
+													randomNumbers.length), 1)];
+
+	// Display the answers in random order
+	$(".input").css("min-height", "50px");
+	$("#input1").html("<button class=\"answer btn btn-primary btn-lg\">" + answer1.answer + "</button>");
+	$("#input2").html("<button class=\"answer btn btn-primary btn-lg\">" + answer2.answer + "</button>");
+	$("#input3").html("<button class=\"answer btn btn-primary btn-lg\">" + answer3.answer + "</button>");
+	$("#input4").html("<button class=\"answer btn btn-primary btn-lg\">" + answer4.answer + "</button>");
+
+	questionCounter++;
+}
 
 /*
  * evaluateAnswers(answer)
@@ -189,6 +245,11 @@ function evaluateAnswers(answer) {
 	}
 }
 
+/*
+ * displayGameResults()
+ * Clear the main-game-panel and display the correct, incorrect and unanswered
+ *  totals.
+ */
 function displayGameResults() {
 
 	$("#timer").html("");
@@ -197,6 +258,7 @@ function displayGameResults() {
 	$("#input2").empty();
 	$("#input3").empty();
 	$("#input4").empty();
+	$(".input").css("min-height", "0");
 
 	if(isUnanswered) {
 
@@ -227,9 +289,20 @@ function displayGameResults() {
 	$("#results").append("<h3>Unanswered: " + numUnanswered + "</h3>");
 }
 
-function stop() {
-	
-	clearInterval(intervalId);
+function decrement() {
+
+	timer--;
+
+	var time = timeConverter(timer);
+
+	$("#timer").html("<h2>" + time + "</h2>");
+
+	if(timer === 0) {
+		stop();
+		isUnanswered = true;
+		displayGameResults();
+		setTimeout(reset, 2000);
+	}
 }
 
 function timeConverter(t) {
@@ -254,59 +327,10 @@ function timeConverter(t) {
 	return minutes + ":" + seconds;
 }
 
-function decrement() {
 
-	timer--;
-
-	var time = timeConverter(timer);
-
-	$("#timer").html("<h2>" + time + "</h2>");
-
-	if(timer === 0) {
-		stop();
-		isUnanswered = true;
-		displayGameResults();
-		setTimeout(reset, 2000);
-	}
-}
-
-function askQuestion() {
-
-	var randomNumbers = [0, 1, 2, 3];
-
-	Math.floor(Math.random() * randomNumbers.length)
-
-	// Display the state
-	$("#state").html("<h2>" + game[questionCounter].state + "</h2>");
-
-	answer1 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
-													randomNumbers.length), 1)];
-	answer2 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
-													randomNumbers.length), 1)];
-	answer3 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
-													randomNumbers.length), 1)];
-	answer4 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
-													randomNumbers.length), 1)];
-
-	// Display the answers in random order
-	$("#input1").html("<h3 class=\"answer\">" + answer1.answer + "<h3>");
-	$("#input2").html("<h3 class=\"answer\">" + answer2.answer + "<h3>");
-	$("#input3").html("<h3 class=\"answer\">" + answer3.answer + "<h3>");
-	$("#input4").html("<h3 class=\"answer\">" + answer4.answer + "<h3>");
-
-	questionCounter++;
-}
-
-function play() {
-
-	var time = timeConverter(timer);
-	$("#timer").html("<h2>" + time + "</h2>");
-	$("#timer").css("display", "block");
-	$("#message").html("");
-
-	intervalId = setInterval(decrement, 1000);
-
-	askQuestion();
+function stop() {
+	
+	clearInterval(intervalId);
 }
 
 function reset() {
@@ -320,37 +344,3 @@ function reset() {
 
 	play();
 }
-
-$(document).ready(function() {
-
-	$("#start-button").click(function() {
-
-		$("#start-button").css("display", "none");
-		$("#done-button").css("display", "block");
-
-		getQuestions();
-		play();
-	});
-
-    $(".input").on("click", function() {
-
-    	stop();
-
-    	evaluateAnswers(this.children[0].innerText);
-		displayGameResults();
-
-		setTimeout(reset, 2000);
-	});
-
-	$("#reset-button").click(function() {
-
-		$("#reset-button").css("display", "none");	
-
-			numCorrect = 0;
-			numIncorrect = 0;
-			numUnanswered = 0;
-			questionCounter = 0;
-
-			reset();		
-	});
-});
