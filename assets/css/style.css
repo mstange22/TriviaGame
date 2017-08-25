@@ -39,7 +39,6 @@ h2 {
 	margin: 0 auto;
 	max-width: 980px;
 	width: 95%;
-	min-height: 95%;
 	border: 2px solid #000000;
 	border-radius: 4px;
 	background-image: url("../images/us-map.jpg");
@@ -60,7 +59,7 @@ h2 {
 }
 
 #main-game-panel {
-	height: 280px;
+	height: 300px;
 	text-align: center;
 }
 

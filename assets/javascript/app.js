@@ -79,6 +79,7 @@ $(document).ready(function() {
 
 		else {
 
+			$("#message").append("<h1>Quiz Complete!</h1>");
 			$("#reset-button").css("display", "block");
 		}
 	});
