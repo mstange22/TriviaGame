@@ -1,34 +1,46 @@
-var number = 120;
-var originalNumber = number;
+var numCorrect = 0;
+var numIncorrect = 0;
+var numUnanswered = 0;
+var timer = 5;
+var originalTimer = timer;
 var intervalId;
-var correct = 0;
-var incorrect = 0;
-var unanswered = 0;
+var questionCounter = 0;
+var correctAnswer = false;
+var isUnanswered = false;
 
-var states = [  "Alabama", "Alaska", "Arizona", "Arkansas", "California",
-                "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-                "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas",
-                "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts",
-                "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
-                "Nebraska", "Nevada", "New Hampshire", "New Jersey",
-                "New Mexico", "New York", "North Carolina", "North Dakota", 
-                "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island",
-                "South Carolina", "South Dakota","Tennessee", "Texas", "Utah",
-                "Vermont", "Virginia", "Washington", "West Virginia",
-                "Wisconsin", "Wyoming"   ];
+var states = [
+	"Alabama", "Alaska", "Arizona", "Arkansas", "California",
+    "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+	"Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas",
+    "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts",
+    "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
+    "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+    "New Mexico", "New York", "North Carolina", "North Dakota", 
+    "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island",
+    "South Carolina", "South Dakota","Tennessee", "Texas", "Utah",
+    "Vermont", "Virginia", "Washington", "West Virginia",
+    "Wisconsin", "Wyoming"
+];
 
-var capitals = [ "Montgomery", "Juneau", "Phoenix", "Little Rock", "Sacramento",
-                "Denver", "Hartford", "Dover", "Tallahassee", "Atlanta",
-                "Honolulu", "Boise", "Springfield", "Indianapolis", "Des Moines",
-                "Topeka", "Frankfort", "Baton Rouge", "Augusta", "Annapolis",
-                "Boston", "Lansing", "Saint Paul", "Jackson", "Jefferson City",
-                "Helena", "Lincoln", "Carson City", "Concord", "Trenton",
-                "Santa Fe", "Albany", "Raleigh", "Bismark", "Columbus",
-                "Oklahoma City", "Salem", "Harrisburg", "Providence", "Columbia",
-                "Pierre", "Nashville", "Austin", "Salt Lake City", "Montpelier",
-                "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne" ];
+var capitals = [
+	"Montgomery", "Juneau", "Phoenix", "Little Rock", "Sacramento",
+    "Denver", "Hartford", "Dover", "Tallahassee", "Atlanta",
+    "Honolulu", "Boise", "Springfield", "Indianapolis", "Des Moines",
+    "Topeka", "Frankfort", "Baton Rouge", "Augusta", "Annapolis",
+    "Boston", "Lansing", "Saint Paul", "Jackson", "Jefferson City",
+    "Helena", "Lincoln", "Carson City", "Concord", "Trenton",
+    "Santa Fe", "Albany", "Raleigh", "Bismark", "Columbus",
+    "Oklahoma City", "Salem", "Harrisburg", "Providence", "Columbia",
+    "Pierre", "Nashville", "Austin", "Salt Lake City", "Montpelier",
+    "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
+];
 
 var game = [];
+
+var answer1 = {};
+var answer2 = {};
+var answer3 = {};
+var answer4 = {};
 
 function getQuestions() {
 
@@ -47,46 +59,83 @@ function getQuestions() {
 	}
 }
 
+/*
+ * evaluateAnswers(answer)
+ * Receives a string representing the user's guess.
+ * Compare the string against the answers# objects to determine if the
+ *  isCorrect field is true or false.
+ * Update correct / incorrect / unanswered.
+ */
+function evaluateAnswers(answer) {
+
+	var objectToTest = {}
+
+	if(answer === answer1.answer) {
+		correctAnswer = answer1.isCorrect;
+	}
+
+	else if(answer === answer2.answer) {
+		correctAnswer = answer2.isCorrect;
+	}
+	else if(answer === answer3.answer) {
+		correctAnswer = answer3.isCorrect;
+	}
+	else if(answer === answer4.answer) {
+		correctAnswer = answer4.isCorrect;
+	}
+
+	else {
+		unanswered = true;
+	}
+}
+
 function displayGameResults() {
 
-	$("#timer").css("display", "none");
+	$("#timer").html("");
+	$("#state").empty();
+	$("#input1").empty();
+	$("#input2").empty();
+	$("#input3").empty();
+	$("#input4").empty();
 
-	$("#main-game-panel").html("<h2>All Done!</h2>");
-	$("#main-game-panel").append("<h3>Correct Answers: " + correct + "</h3>");
-	$("#main-game-panel").append("<h3>Incorrect Answers: " + incorrect + "</h3>");
-	$("#main-game-panel").append("<h3>Unanswered: " + unanswered + "</h3>");
+	if(isUnanswered) {
 
+		$("#message").html("Unanswered");
+		numUnanswered++;
+		isUnanswered = false;
+	}
 
-	$("#done-button").css("display", "none");
-	$("#reset-button").css("display", "block");
+	else {
+
+		if(correctAnswer) {
+
+			$("#message").html("Correct!");
+			numCorrect++;
+			correctAnswer = false;
+		}
+
+		else {
+
+		$("#message").html("Incorrect");
+		numIncorrect++;
+		correctAnswer = false;
+		}
+	}
+
+	$("#results").html("<h3>Correct Answers: " + numCorrect + "</h3>");
+	$("#results").append("<h3>Incorrect Answers: " + numIncorrect + "</h3>");
+	$("#results").append("<h3>Unanswered: " + numUnanswered + "</h3>");
 }
-
-function evaluateAnswers() {
-
-// 	// for(var i = 0; i < game.length; i++) {
-
-// 		// check the answers for this question
-
-// 		// first make sure that there is a button checked
-
-// 		// var inputID = "input" + i;
-
-// 		// if($("input1[name='answer']").is(":checked")) {
-// 		// 	alert("button checked");
-// 		// }
-// 	// }
-}
-
 
 function stop() {
 	
 	clearInterval(intervalId);
-	displayGameResults();
 }
 
 function timeConverter(t) {
 
-	//  Takes the current time in seconds and convert it to minutes and seconds (mm:ss).
+	//  Takes the current time in seconds and convert it
+	//   to minutes and seconds (mm:ss).
 	var minutes = Math.floor(t / 60);
 	var seconds = t - (minutes * 60);
 
@@ -107,15 +156,17 @@ function timeConverter(t) {
 
 function decrement() {
 
-	number--;
+	timer--;
 
-	var time = timeConverter(number);
-
+	var time = timeConverter(timer);
 
 	$("#timer").html("<h2>" + time + "</h2>");
 
-	if(number === 0) {
+	if(timer === 0) {
 		stop();
+		isUnanswered = true;
+		displayGameResults();
+		setTimeout(reset, 2000);
 	}
 }
 
@@ -154,55 +205,58 @@ function formatAnswers() {
 	}
 }
 
-function askQuestion(i) {
+function askQuestion() {
 
 	var randomNumbers = [0, 1, 2, 3];
 
 	Math.floor(Math.random() * randomNumbers.length)
 
 	// Display the state
-	$("#main-game-panel").append("<h2>" + game[i].state + "</h2>");
+	$("#state").html("<h2>" + game[questionCounter].state + "</h2>");
+
+	answer1 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
+													randomNumbers.length), 1)];
+	answer2 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
+													randomNumbers.length), 1)];
+	answer3 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
+													randomNumbers.length), 1)];
+	answer4 = game[questionCounter].answers[randomNumbers.splice(Math.floor(Math.random() *
+													randomNumbers.length), 1)];
 
 	// Display the answers in random order
-	$("#main-game-panel").append("<h3 id=\"answer1\">" +
-							game[i].answers[randomNumbers.splice(Math.floor(Math.random() *
-							randomNumbers.length), 1)].answer + "<h3>");
-	$("#main-game-panel").append("<h3 id=\"answer2\">" +
-							game[i].answers[randomNumbers.splice(Math.floor(Math.random() *
-							randomNumbers.length), 1)].answer + "<h3>");
-	$("#main-game-panel").append("<h3 id=\"answer3\">" + game[i].answers[randomNumbers.splice(Math.floor(Math.random() *
-							randomNumbers.length), 1)].answer + "<h3>");
-	$("#main-game-panel").append("<h3 id=\"answer4\">" + game[i].answers[randomNumbers.splice(Math.floor(Math.random() *
-							randomNumbers.length), 1)].answer + "<h3>");
+	$("#input1").html("<h3 class=\"answer\">" + answer1.answer + "<h3>");
+	$("#input2").html("<h3 class=\"answer\">" + answer2.answer + "<h3>");
+	$("#input3").html("<h3 class=\"answer\">" + answer3.answer + "<h3>");
+	$("#input4").html("<h3 class=\"answer\">" + answer4.answer + "<h3>");
 
-	$("#main-game-panel").append("<br><br>");
+	questionCounter++;
 }
 
 function play() {
 
-	var time = timeConverter(number);
+	var time = timeConverter(timer);
 	$("#timer").html("<h2>" + time + "</h2>");
-	$("#main-game-panel").html("");
+	$("#timer").css("display", "block");
+	$("#message").html("");
 
 	intervalId = setInterval(decrement, 1000);
 
-	getQuestions();
-
-	for(var i = 0; i < game.length; i++) {
-
-		askQuestion(i);
-	}
+	askQuestion();
 }
 
 function reset() {
 
-	correct = 0;
-	incorrect = 0;
-	unanswered = 0;
+	// numCorrect = 0;
+	// numIncorrect = 0;
+	// numUnanswered = 0;
+	// questionCounter = 0;
+	correctAnswer = false;
+	isUnanswered = false;
 
-	$("#main-game-panel").html("");
+	timer = originalTimer;
 
-	$("#done-button").css("display", "block");
+	$("#results").html("");
+
 	play();
 
 }
@@ -213,20 +267,30 @@ $(document).ready(function() {
 
 		$("#start-button").css("display", "none");
 		$("#done-button").css("display", "block");
+
+		getQuestions();
 		play();
 	});
 
-	$("#done-button").click(function() {
+    $(".input").on("click", function() {
 
-		$("#done-button").css("display", "none");
-		stop();
-		evaluateAnswers();
-		$("#reset-button").css("display", "block");
+    	stop();
+
+    	evaluateAnswers(this.children[0].innerText);
+		displayGameResults();
+
+		setTimeout(reset, 2000);
 	});
 
 	$("#reset-button").click(function() {
 
-		$("#reset-button").css("display", "none");		
-		reset();		
+		$("#reset-button").css("display", "none");	
+
+			numCorrect = 0;
+			numIncorrect = 0;
+			numUnanswered = 0;
+			questionCounter = 0;
+
+			reset();		
 	});
 });
