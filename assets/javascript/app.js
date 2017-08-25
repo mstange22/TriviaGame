@@ -35,6 +35,19 @@ var capitals = [
     "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
 ];
 
+var capitals = [
+	"Montgomery", "Juneau", "Phoenix", "Little Rock", "Sacramento",
+    "Denver", "Hartford", "Dover", "Tallahassee", "Atlanta",
+    "Honolulu", "Boise", "Springfield", "Indianapolis", "Des Moines",
+    "Topeka", "Frankfort", "Baton Rouge", "Augusta", "Annapolis",
+    "Boston", "Lansing", "Saint Paul", "Jackson", "Jefferson City",
+    "Helena", "Lincoln", "Carson City", "Concord", "Trenton",
+    "Santa Fe", "Albany", "Raleigh", "Bismark", "Columbus",
+    "Oklahoma City", "Salem", "Harrisburg", "Providence", "Columbia",
+    "Pierre", "Nashville", "Austin", "Salt Lake City", "Montpelier",
+    "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
+];
+
 var game = [];
 
 var answer1 = {};
@@ -44,20 +57,107 @@ var answer4 = {};
 
 function getQuestions() {
 
-	var tempQuestion;
+	var tempQuestion = {};
+	var tempAnswer = {};
 
 	for(var i = 0; i < states.length; i++) {
 		
 		tempQuestion = {state: states[i],
-			answers: [	{answer: capitals[i], isCorrect: true},
-			{answer: capitals[Math.floor(Math.random() * capitals.length)], isCorrect: false},
-			{answer: capitals[Math.floor(Math.random() * capitals.length)], isCorrect: false},
-			{answer: capitals[Math.floor(Math.random() * capitals.length)], isCorrect: false}]
+			answers: [	{answer: capitals[i], isCorrect: true}
+			// {answer: capitals[Math.floor(Math.random() * capitals.length)], isCorrect: false},
+			// {answer: capitals[Math.floor(Math.random() * capitals.length)], isCorrect: false},
+			// {answer: capitals[Math.floor(Math.random() * capitals.length)], isCorrect: false}
+			]
 		};
-	
+
 		game.push(tempQuestion);
+
+		// add capitals / decoys.
+
+		tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
+																			isCorrect: false};	
+
+		// if the first random capital is the same as the state capital...
+		while (tempAnswer.answer === game[i].answers[0].answer) {
+
+			// get a new random capital..
+			tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
+																			isCorrect: false};
+		}
+
+		// if here, then it must be ok
+		game[i].answers.push(tempAnswer);
+
+		// do it again...
+
+		tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
+																			isCorrect: false};	
+
+		// if the first random capital is the same as the state capital AND first decoy.
+		while (tempAnswer.answer === game[i].answers[0].answer ||
+				tempAnswer.answer === game[i].answers[1].answer) {
+
+			// get a new random capital..
+			tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
+																			isCorrect: false};
+		}
+		
+		game[i].answers.push(tempAnswer);
+
+		// and again...
+
+		tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
+																			isCorrect: false};	
+
+		// Check all 3 previous elements...
+		while (tempAnswer.answer === game[i].answers[0].answer ||
+				tempAnswer.answer === game[i].answers[1].answer ||
+				tempAnswer.answer === game[i].answers[2].answer) {
+
+			// get a new random capital..
+			tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
+																			isCorrect: false};
+		}
+		
+		game[i].answers.push(tempAnswer);
 	}
 }
+
+/*
+ * formatAnswers()
+ * Eliminate duplicates introduced at initialization
+ */
+// function formatAnswers() {
+
+// 	for(var i = 0; i < game.length; i++) {
+
+// 		for(var j = 1; j < game[i].answers.length; j++) {
+
+// 			// if there are duplicates...
+// 			while(	game[i].answers[j].answer === game[i].answers[0].answer ||
+// 					game[i].answers[j].answer === game[i].answers[0].answer ||
+// 					tempAnswers[j].answer === game[i].answers[0].answer ||
+// 					tempAnswers[j].answer === game[i].answers[0].answer    ) {
+
+// 				// get a new random answer from capitals array
+// 				game[i].answers[j].answer = capitals[Math.floor(Math.random() * capitals.length)];
+// 			}
+// 		}
+
+// 		// randomly put the temp answers back into the game array
+// 		for (var k = 0; k < game[i].answers.length; k++) {
+
+// 			// get a random number to remove from tempAnswers
+// 			var randomNum = Math.floor(Math.random() * tempAnswers.length);
+
+// 			// if(!game[i].answers[k] == tempAnswers[randomNum])
+			
+// 			game[i].answers.splice(k, 1, tempAnswers[randomNum]);
+// 			tempAnswers.splice(randomNum, 1);
+// 		}
+// 	}
+// }
+
 
 /*
  * evaluateAnswers(answer)
@@ -170,41 +270,6 @@ function decrement() {
 	}
 }
 
-function formatAnswers() {
-
-	for(var i = 0; i < game.length; i++) {
-		
-		var tempAnswers = [];
-
-		tempAnswers = game[i].answers;
-
-		for(var j = 1; j < game[i].answers.length; j++) {
-
-			// if there are duplicates...
-			while(	tempAnswers[j].answer === game[i].answers[0].answer ||
-					tempAnswers[j].answer === game[i].answers[0].answer ||
-					tempAnswers[j].answer === game[i].answers[0].answer ||
-					tempAnswers[j].answer === game[i].answers[0].answer    ) {
-
-				// get a new random answer from capitals array
-				tempAnswers[j].answer = capitals[Math.floor(Math.random() * capitals.length)];
-			}
-		}
-
-		// randomly put the temp answers back into the game array
-		for (var k = 0; k < game[i].answers.length; k++) {
-
-			// get a random number to remove from tempAnswers
-			var randomNum = Math.floor(Math.random() * tempAnswers.length);
-
-			// if(!game[i].answers[k] == tempAnswers[randomNum])
-			
-			game[i].answers.splice(k, 1, tempAnswers[randomNum]);
-			tempAnswers.splice(randomNum, 1);
-		}
-	}
-}
-
 function askQuestion() {
 
 	var randomNumbers = [0, 1, 2, 3];
@@ -246,10 +311,6 @@ function play() {
 
 function reset() {
 
-	// numCorrect = 0;
-	// numIncorrect = 0;
-	// numUnanswered = 0;
-	// questionCounter = 0;
 	correctAnswer = false;
 	isUnanswered = false;
 
@@ -258,7 +319,6 @@ function reset() {
 	$("#results").html("");
 
 	play();
-
 }
 
 $(document).ready(function() {
