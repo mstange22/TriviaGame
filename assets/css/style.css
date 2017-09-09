@@ -39,10 +39,10 @@ h2 {
 	margin: 0 auto;
 	max-width: 980px;
 	width: 95%;
-	max-height: 482px;
+	height: 482px;
 	border: 1px solid black;
 	border-radius: 4px;
-	background-image: url("../images/us-map.jpg");
+	/*background-image: url("../images/us-map.jpg");*/
 	background-repeat: no-repeat;
 	background-position: 50% 20px;
 	background-size: 60%;
@@ -53,6 +53,19 @@ h2 {
 
 #top-row {
 	height: 70px;
+}
+
+#timer {
+	height: 50px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+label.form-header {
+	font-size: 24px;
+	font-weight: normal;
+	margin-top: 20px;
+	margin-bottom: 0px;
 }
 
 #bottom-row {
@@ -68,36 +81,22 @@ h2 {
 	height: 250px;
 }
 
-#start-button, #reset-button, #pause-button, .answer{
+#start-button, #replay-button, #reset-button, .answer{
 	margin: 0 auto;
-	min-width: 100px;
+	width: 168px;
 	border: 1px solid black;
-}
-
-.answer {
-	min-width: 150px;
 }
 
 #start-button {
 	display: block;
 }
 
-#pause-button {
+#replay-button, #reset-button {
 	display: none;
 }
 
 #reset-button {
-	display: none;
-}
-
-#buttons {
-	height: 50px;
-}
-
-#timer {
-	height: 50px;
-	margin: 0 auto;
-	text-align: center;
+	margin-top: 5px;
 }
 
 #footer {

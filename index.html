@@ -17,12 +17,30 @@
 			<div id="top-row" class="row">
 				<div class="col-md-12">
 					<div id="timer">
+						<h2>Select Game Settings</h2>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<div id="main-game-panel">
+						<form id="start-form">
+						<label class="form-header">Difficulty</label><br>
+						<input id="input-easy" name="difficulty" type="radio" checked>Easy
+						<input id="input-hard" name="difficulty" type="radio">Hard<br>
+
+						<label class="form-header">Speed</label><br>
+						<input id="input-timer-slow" name="speed" type="radio" checked>Slow
+						<input id="input-timer-fast" name="speed" type="radio">Fast<br>
+
+						<label class="form-header">Number of Questions</label><br>
+						<select id="select-num-questions">
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="25">25</option>
+							<option value="50">50</option>
+						</select>
+						</form>
 						<h2 id="message"></h2>
 						<div id="state"></div>
 						<div id="input1" class="input"></div>
@@ -30,7 +48,6 @@
 						<div id="input3" class="input"></div>
 						<div id="input4" class="input"></div>
 						<div id="results"></div>
-						<br><br>
 					</div>
 				</div>
 			</div>
@@ -38,13 +55,14 @@
 				<div class="col-md-12">
 					<div id="buttons">
 						<button id="start-button" class="btn btn-primary btn-lg">Start</button>
-						<button id="reset-button" class="btn btn-primary btn-lg">Reset</button>
+						<button id="replay-button" class="btn btn-primary btn-lg">Replay</button>
+						<button id="reset-button" class="btn btn-primary btn-lg">Change Settings</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="container" id="spacer">
 		<div class="row">
 			<div class="col-md-12">
 			</div>

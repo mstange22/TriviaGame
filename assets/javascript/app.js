@@ -5,8 +5,8 @@
  * Assignment #5 
  */
 
-const maxQuestions = 50;
 
+var maxQuestions = 50;
 var questionCounter = 0;
 var numCorrect = 0;
 var numIncorrect = 0;
@@ -17,6 +17,7 @@ var intervalId;
 var correctAnswer = false;
 var isUnanswered = false;
 var correctCapital = "";
+var isEasy = true;
 
 // The game array that will hold all of the states and answers
 var game = [{state: "Alabama", answers: [ {answer: "Montgomery", isCorrect: true},
@@ -297,8 +298,6 @@ var capitals = [
     "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
 ];
 
-// The game array that will hold all of the states and answers
-var game2 = [];
 
 // array of indexes for random order of states displayed
 var randomStateNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
@@ -313,18 +312,25 @@ var answer2 = {};
 var answer3 = {};
 var answer4 = {};
 
+$("#start-button").click(function() {
 
-// when the DOM loads, listen for start button click
-$(document).ready(function() {
+	$("#start-form").css("display", "none");
+	$("#start-button").css("display", "none");
+	$(".jumbotron").css("background-image", "none");
 
-	$("#start-button").click(function() {
+	if($("#input-easy")[0].checked) {
+	
+		getQuestions();	
+	}
 
-		$("#start-button").css("display", "none");
-		$(".jumbotron").css("background-image", "none");
+	if($("#input-timer-slow")[0].checked) {
+		timer = 10;
+		originalTimer = timer;
+	}
 
-		// getQuestions();
-		play();
-	});
+	maxQuestions = parseInt($("#select-num-questions").val());
+	
+	play();
 });
 
 $(".input").on("click", function() {
@@ -336,33 +342,83 @@ $(".input").on("click", function() {
 
 	if (questionCounter < maxQuestions) {
 
-		setTimeout(reset, 1000);
+		setTimeout(refreshForNewQuestion, 1000);
 	}
 
 	else {
 
 		$("#message").append("<h2>Quiz Complete!</h2>");
+
+		$("#main-game-panel").css("height", "245px");
+		$("#replay-button").css("display", "block");
 		$("#reset-button").css("display", "block");
 	}
 });
 
+$("#replay-button").click(function() {
+
+	reset();
+	refreshForNewQuestion();
+});
+
 $("#reset-button").click(function() {
 
-	$("#reset-button").css("display", "none");
+	$("#main-game-panel").css("height", "300px");
+	$("#start-form").css("display", "inline-block");
+	$("#start-button").css("display", "block");
 
-		numCorrect = 0;
-		numIncorrect = 0;
-		numUnanswered = 0;
-		questionCounter = 0;
+	$("#results").html("");
 
-		randomStateNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-							 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-							 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-							 41, 42, 43, 44, 45, 46, 47, 48, 49];
-		randomState = 0;
-
-		reset();		
+	reset();
 });
+
+
+function refreshForNewQuestion() {
+
+	correctAnswer = false;
+	isUnanswered = false;
+
+	timer = originalTimer;
+
+	$("#results").html("");
+
+	play();
+}
+
+function reset() {
+
+	$("#replay-button").css("display", "none");
+	$("#reset-button").css("display", "none");
+	numCorrect = 0;
+	numIncorrect = 0;
+	numUnanswered = 0;
+	questionCounter = 0;
+
+	randomStateNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+						 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+						 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+						 41, 42, 43, 44, 45, 46, 47, 48, 49];
+	randomState = 0;
+
+	$("#main-game-panel").css("height", "300px");
+
+}
+
+/*
+ * play()
+ * Starts the timer and asks a question.
+ */
+function play() {
+
+	var time = timeConverter(timer);
+	$("#timer").html("<h2>" + time + "</h2>");
+	$("#timer").css("display", "block");
+	$("#message").html("");
+
+	intervalId = setInterval(decrement, 1000);
+
+	askQuestion();
+}
 
 /*
  * getQuestions()
@@ -371,6 +427,8 @@ $("#reset-button").click(function() {
  * Tedious, but it works.
  */
 function getQuestions() {
+
+	game = [];
 
 	var tempQuestion = {};
 	var tempAnswer = {};
@@ -430,22 +488,6 @@ function getQuestions() {
 		
 		game[i].answers.push(tempAnswer);
 	}
-}
-
-/*
- * play()
- * Starts the timer and asks a question.
- */
-function play() {
-
-	var time = timeConverter(timer);
-	$("#timer").html("<h2>" + time + "</h2>");
-	$("#timer").css("display", "block");
-	$("#message").html("");
-
-	intervalId = setInterval(decrement, 1000);
-
-	askQuestion();
 }
 
 /*
@@ -565,6 +607,9 @@ function displayGameResults() {
 	$("#pause-button").css("display", "block");
 }
 
+/*
+ * timer functions
+ */
 function decrement() {
 
 	timer--;
@@ -619,16 +664,4 @@ function timeConverter(t) {
 function stop() {
 	
 	clearInterval(intervalId);
-}
-
-function reset() {
-
-	correctAnswer = false;
-	isUnanswered = false;
-
-	timer = originalTimer;
-
-	$("#results").html("");
-
-	play();
 }
