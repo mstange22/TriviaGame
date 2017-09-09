@@ -5,7 +5,8 @@
  * Assignment #5 
  */
 
-var maxQuestions = 50;
+const maxQuestions = 50;
+
 var questionCounter = 0;
 var numCorrect = 0;
 var numIncorrect = 0;
@@ -313,6 +314,7 @@ var answer3 = {};
 var answer4 = {};
 
 
+// when the DOM loads, listen for start button click
 $(document).ready(function() {
 
 	$("#start-button").click(function() {
@@ -323,43 +325,43 @@ $(document).ready(function() {
 		// getQuestions();
 		play();
 	});
+});
 
-    $(".input").on("click", function() {
+$(".input").on("click", function() {
 
-    	stop();
+	stop();
 
-    	evaluateAnswers(this.children[0].innerText);
-		displayGameResults(this);
+	evaluateAnswers(this.children[0].innerText);
+	displayGameResults(this);
 
-		if (questionCounter < maxQuestions) {
+	if (questionCounter < maxQuestions) {
 
-			setTimeout(reset, 1000);
-		}
+		setTimeout(reset, 1000);
+	}
 
-		else {
+	else {
 
-			$("#message").append("<h2>Quiz Complete!</h2>");
-			$("#reset-button").css("display", "block");
-		}
-	});
+		$("#message").append("<h2>Quiz Complete!</h2>");
+		$("#reset-button").css("display", "block");
+	}
+});
 
-	$("#reset-button").click(function() {
+$("#reset-button").click(function() {
 
-		$("#reset-button").css("display", "none");
+	$("#reset-button").css("display", "none");
 
-			numCorrect = 0;
-			numIncorrect = 0;
-			numUnanswered = 0;
-			questionCounter = 0;
-	
-			randomStateNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-								 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-								 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-								 41, 42, 43, 44, 45, 46, 47, 48, 49];
-			randomState = 0;
+		numCorrect = 0;
+		numIncorrect = 0;
+		numUnanswered = 0;
+		questionCounter = 0;
 
-			reset();		
-	});
+		randomStateNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+							 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+							 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+							 41, 42, 43, 44, 45, 46, 47, 48, 49];
+		randomState = 0;
+
+		reset();		
 });
 
 /*
