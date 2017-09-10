@@ -69,9 +69,15 @@ label.form-header {
 	height: 50px;
 }
 
+.input {
+	margin-bottom: 10px;
+}
+
 #start-button, #replay-button, #reset-button, .answer{
 	margin: 0 auto;
-	width: 185px;
+	font-size: 16px;
+	width: 250px;
+	height: 50px;
 	box-shadow: 5px 5px 20px #37474f;
 }
 
@@ -82,7 +88,11 @@ label.form-header {
 
 #replay-button, #reset-button {
 	display: none;
-	margin-top: 20px;
+	margin-top: 10px;
+}
+
+#replay-button {
+	margin-top: 15px;
 }
 
 @media screen and (max-width: 480px) {
@@ -94,6 +104,17 @@ label.form-header {
 
 	#jumbotron {
 		height: 480px;
+	}
+
+	.input {
+		margin-bottom: 0px;
+	}
+
+	#start-button, #replay-button, #reset-button, .answer{
+		font-size: 12px;
+		width: 200px;
+		height: 38px;
+		box-shadow: 5px 5px 20px #37474f;
 	}
 
 	#start-button {
