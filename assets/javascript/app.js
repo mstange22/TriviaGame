@@ -357,7 +357,7 @@ $(".input").on("click", function() {
 
 	else {
 
-		$("#message").append("<h2>Quiz Complete!</h2>");
+		$("#message").append("<h2>Quiz Complete</h2>");
 
 		$("#main-game-panel").css("height", "285px");
 		$("#replay-button").css("display", "block");

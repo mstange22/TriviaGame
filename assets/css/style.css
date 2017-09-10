@@ -2,10 +2,8 @@ body {
 	background-color: #eeeeee;
 }
 
-#nav, #jumbotron {
+#header, #jumbotron {
 	text-align: center;
-	color: black;
-	background-color: white;
 	box-shadow: 10px 10px 20px #37474f;
 	border-radius: 20px;
 	margin: 0 auto;
@@ -14,6 +12,11 @@ body {
 	padding: 20px;
 	margin-top: 20px;
 	margin-bottom: 20px;
+}
+
+#header {
+	color: white;
+	background-color: #33C3F0;
 }
 
 h1, h2 {
@@ -26,7 +29,8 @@ h2 {
 
 #jumbotron {
 	height: 500px;
-	/*background-image: url("../images/us-map.jpg");*/
+	color: black;
+	background-color: white;
 	background-repeat: no-repeat;
 	background-position: 50% 20px;
 	background-size: 60%;
