@@ -381,7 +381,7 @@ $("#reset-button").click(function() {
 	$("#timer").html("<h3>Select Options</h3>");
 	$("#message").html("");
 
-	$("#start-form").css("display", "inline-block");
+	$("#start-form").css("display", "block");
 	$("#start-button").css("display", "block");
 });
 
