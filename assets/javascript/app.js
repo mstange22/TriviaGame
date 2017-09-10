@@ -20,7 +20,9 @@ var correctCapital = "";
 var isEasy = true;
 
 // The game array that will hold all of the states and answers
-var game = [{state: "Alabama", answers: [ {answer: "Montgomery", isCorrect: true},
+var game = [];
+
+var hardGame = [{state: "Alabama", answers: [ {answer: "Montgomery", isCorrect: true},
 										{answer: "Tuscaloosa", iscorrect: false},
 										{answer: "Birmingham", isCorrect: false},
 										{answer: "Jackson", isCorrect: false} ]},
@@ -316,15 +318,23 @@ $("#start-button").click(function() {
 
 	$("#start-form").css("display", "none");
 	$("#start-button").css("display", "none");
-	$(".jumbotron").css("background-image", "none");
 
 	if($("#input-easy")[0].checked) {
 	
 		getQuestions();	
 	}
 
+	else {
+		game = hardGame;
+	}
+
 	if($("#input-timer-slow")[0].checked) {
 		timer = 10;
+		originalTimer = timer;
+	}
+
+	if($("#input-timer-fast")[0].checked) {
+		timer = 5;
 		originalTimer = timer;
 	}
 
@@ -349,7 +359,7 @@ $(".input").on("click", function() {
 
 		$("#message").append("<h2>Quiz Complete!</h2>");
 
-		$("#main-game-panel").css("height", "245px");
+		$("#main-game-panel").css("height", "285px");
 		$("#replay-button").css("display", "block");
 		$("#reset-button").css("display", "block");
 	}
@@ -363,13 +373,17 @@ $("#replay-button").click(function() {
 
 $("#reset-button").click(function() {
 
-	$("#main-game-panel").css("height", "300px");
-	$("#start-form").css("display", "inline-block");
-	$("#start-button").css("display", "block");
+	reset();
+
+	correctAnswer = false;
+	isUnanswered = false;
 
 	$("#results").html("");
+	$("#timer").html("<h2>Select Game Settings</h2>");
+	$("#message").html("");
 
-	reset();
+	$("#start-form").css("display", "inline-block");
+	$("#start-button").css("display", "block");
 });
 
 
@@ -387,8 +401,10 @@ function refreshForNewQuestion() {
 
 function reset() {
 
+	$("#main-game-panel").css("height", "255px");
 	$("#replay-button").css("display", "none");
 	$("#reset-button").css("display", "none");
+
 	numCorrect = 0;
 	numIncorrect = 0;
 	numUnanswered = 0;
@@ -399,9 +415,6 @@ function reset() {
 						 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
 						 41, 42, 43, 44, 45, 46, 47, 48, 49];
 	randomState = 0;
-
-	$("#main-game-panel").css("height", "300px");
-
 }
 
 /*
@@ -496,8 +509,6 @@ function getQuestions() {
  */
 function askQuestion() {
 
-	$("#pause-button").css("display", "none");
-
 	randomState = randomStateNumber.splice(Math.floor(Math.random() *
 													randomStateNumber.length), 1);
 	// capture the correct capital
@@ -505,9 +516,10 @@ function askQuestion() {
 
 	var randomNumbers = [0, 1, 2, 3];
 
-	// Display the state
+	// display the state
 	$("#state").html("<h2>" + game[randomState].state + "</h2>");
 
+	// get the 4 possible answers in random order
 	answer1 = game[randomState].answers[randomNumbers.splice(Math.floor(Math.random() *
 													randomNumbers.length), 1)];
 	answer2 = game[randomState].answers[randomNumbers.splice(Math.floor(Math.random() *
@@ -517,12 +529,12 @@ function askQuestion() {
 	answer4 = game[randomState].answers[randomNumbers.splice(Math.floor(Math.random() *
 													randomNumbers.length), 1)];
 
-	// Display the answers in random order
+	// display the answers
 	$(".input").css("min-height", "50px");
-	$("#input1").html("<button class=\"answer btn btn-primary btn-lg\">" + answer1.answer + "</button>");
-	$("#input2").html("<button class=\"answer btn btn-primary btn-lg\">" + answer2.answer + "</button>");
-	$("#input3").html("<button class=\"answer btn btn-primary btn-lg\">" + answer3.answer + "</button>");
-	$("#input4").html("<button class=\"answer btn btn-primary btn-lg\">" + answer4.answer + "</button>");
+	$("#input1").html("<button class=\"answer button button-primary\">" + answer1.answer + "</button>");
+	$("#input2").html("<button class=\"answer button button-primary\">" + answer2.answer + "</button>");
+	$("#input3").html("<button class=\"answer button button-primary\">" + answer3.answer + "</button>");
+	$("#input4").html("<button class=\"answer button button-primary\">" + answer4.answer + "</button>");
 
 	questionCounter++;
 }
@@ -536,17 +548,17 @@ function askQuestion() {
  */
 function evaluateAnswers(answer) {
 
-	if(answer === answer1.answer) {
+	if(answer === answer1.answer.toUpperCase()) {
 		correctAnswer = answer1.isCorrect;
 	}
 
-	else if(answer === answer2.answer) {
+	else if(answer === answer2.answer.toUpperCase()) {
 		correctAnswer = answer2.isCorrect;
 	}
-	else if(answer === answer3.answer) {
+	else if(answer === answer3.answer.toUpperCase()) {
 		correctAnswer = answer3.isCorrect;
 	}
-	else if(answer === answer4.answer) {
+	else if(answer === answer4.answer.toUpperCase()) {
 		correctAnswer = answer4.isCorrect;
 	}
 
@@ -573,9 +585,9 @@ function displayGameResults() {
 	if(isUnanswered) {
 
 		$("#timer").html("<h2>Unanswered</h2>");
-		$("#message").append("<h3>The capital is of <b>" +
+		$("#message").append("<h4>The capital is of <b>" +
 					game[randomState].state + "</b> is <b>" +
-					game[randomState].answers[0].answer + "</b></h3>");
+					game[randomState].answers[0].answer + "</b></h4>");
 		numUnanswered++;
 		isUnanswered = false;
 	}
@@ -592,19 +604,17 @@ function displayGameResults() {
 		else {
 
 		$("#timer").html("<h2>Incorrect</h2>");
-		$("#message").append("<h3>The capital is of <b>" +
+		$("#message").append("<h5>The capital is of <b>" +
 					game[randomState].state + "</b> is <b>" +
-					game[randomState].answers[0].answer + "</b></h3>");
+					game[randomState].answers[0].answer + "</b></h5>");
 		numIncorrect++;
 		correctAnswer = false;
 		}
 	}
 
-	$("#results").html("<h3>Correct Answers: " + numCorrect + "</h3>");
-	$("#results").append("<h3>Incorrect Answers: " + numIncorrect + "</h3>");
-	$("#results").append("<h3>Unanswered: " + numUnanswered + "</h3>");
-
-	$("#pause-button").css("display", "block");
+	$("#results").html("<h5>Correct Answers: " + numCorrect + "</h5>");
+	$("#results").append("<h5>Incorrect Answers: " + numIncorrect + "</h5>");
+	$("#results").append("<h5>Unanswered: " + numUnanswered + "</h5>");
 }
 
 /*
@@ -628,13 +638,15 @@ function decrement() {
 
 		if (questionCounter < maxQuestions) {
 
-			setTimeout(reset, 1000);
+			setTimeout(refreshForNewQuestion, 1000);
 		}
 
 		else {
 
-			$("#message").append("<h2>Quiz Complete!</h2>");
+			$("#message").append("<h2>Quiz Complete</h2>");
+			$("#main-game-panel").css("height", "285px");
 			$("#reset-button").css("display", "block");
+			$("#replay-button").css("display", "block");
 		}
 	}
 }

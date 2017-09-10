@@ -1,54 +1,35 @@
-html {
-  position: relative;
-  min-height: 100%;
+body {
+	background-color: #eeeeee;
 }
 
-body {
-	background-color: #cccccc;
-	margin-bottom: 80px;
+#nav, #jumbotron {
+	text-align: center;
+	color: black;
+	background-color: white;
+	box-shadow: 10px 10px 20px #37474f;
+	border-radius: 20px;
+	margin: 0 auto;
+	max-width: 960px;
+	width: 95%;
+	padding: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+h1, h2 {
+	margin-bottom: 0px;
 }
 
 h2 {
 	font-weight: bold;
 }
 
-#navbar-container {
-	max-width: 960px;
-	width: 100%;
-	margin: auto;
-}
-
-.navbar {
-	border: none;
-}
-
-#trivia-nav {
-	height: 80px;
-	text-align: center;
-	font-size: 36px;
-	font-family: inherit;
-	color: #ffffff;
-	background-color: #286090;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	border: none;
-	border-bottom: 1px solid black;
-}
-
-.jumbotron {
-	margin: 0 auto;
-	max-width: 980px;
-	width: 95%;
-	height: 482px;
-	border: 1px solid black;
-	border-radius: 4px;
+#jumbotron {
+	height: 500px;
 	/*background-image: url("../images/us-map.jpg");*/
 	background-repeat: no-repeat;
 	background-position: 50% 20px;
 	background-size: 60%;
-	background-color: #ffffff;
-	padding: 20px;
-	margin-bottom: 20px;
 }
 
 #top-row {
@@ -61,91 +42,42 @@ h2 {
 	text-align: center;
 }
 
+#main-game-panel {
+	height: 255px;
+	text-align: center;
+}
+
+#start-form {
+	margin-bottom: 0px;
+}
+
 label.form-header {
 	font-size: 24px;
 	font-weight: normal;
-	margin-top: 20px;
-	margin-bottom: 0px;
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+#state {
+	margin-bottom: 10px;
 }
 
 #bottom-row {
 	height: 50px;
 }
 
-#main-game-panel {
-	height: 300px;
-	text-align: center;
-}
-
-#map {
-	height: 250px;
-}
-
 #start-button, #replay-button, #reset-button, .answer{
 	margin: 0 auto;
-	width: 168px;
-	border: 1px solid black;
+	width: 185px;
+	box-shadow: 5px 5px 20px #37474f;
 }
 
 #start-button {
+	margin-top: 10px;
 	display: block;
 }
 
 #replay-button, #reset-button {
 	display: none;
-}
-
-#reset-button {
-	margin-top: 5px;
-}
-
-#footer {
-	height: 80px;
-	width: 100%;
-	background-color: #286090;
-	border-top: 1px solid black;
-	color: white;
-    text-align: center;
-    padding: 25px;
-    font-size: 12px;
-	position: absolute;
-	bottom: 0;
-}
-
-@media screen and (max-width: 640px) {
-
-	body {
-		margin-bottom: 40px;
-	}
-
-	.navbar {
-	    min-height: 40px;
-	}
-
-	#trivia-nav {
-		height: 40px;
-		text-align: center;
-		font-size: 18px;
-		font-family: inherit;
-		color: #ffffff;
-		background-color: #337ab7;
-		padding-top: 5px;
-		padding-bottom: 5px;
-		border: none;
-		border-bottom: 1px solid black;
-	}
-
-	#footer {
-		height: 40px;
-		width: 100%;
-		background-color: #337ab7;
-		border-top: 1px solid black;
-		position: absolute;
-		bottom: 0px;
-		color: white;
-	    text-align: center;
-	    padding: 10px;
-	    font-size: 8px;
-	}
-
+	margin-top: 10px;
 }

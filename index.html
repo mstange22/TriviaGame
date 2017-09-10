@@ -4,15 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Trivia Game</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<title>State Capitals Quiz</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">    <link rel="shortcut icon" href="assets/images/us-map.jpg" type="image/x-icon">
+    <link rel="icon" href="assets/images/us-map.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
-    <nav id="nav" class="navbar navbar-default">
-        <div id="trivia-nav">State Capitals Quiz</div>
-    </nav>
-	<div class="jumbotron">
+    <div class="jumbotron" id="nav">
+        <h1>State Capitals Quiz</h1>
+    </div>
+	<div class="jumbotron" id="jumbotron">
 		<div class="container" id="jumbotron-container">
 			<div id="top-row" class="row">
 				<div class="col-md-12">
@@ -25,15 +28,15 @@
 				<div class="col-md-12">
 					<div id="main-game-panel">
 						<form id="start-form">
-						<label class="form-header">Difficulty</label><br>
-						<input id="input-easy" name="difficulty" type="radio" checked>Easy
-						<input id="input-hard" name="difficulty" type="radio">Hard<br>
+						<label class="form-header">Difficulty</label>
+						<input id="input-easy" name="difficulty" type="radio" checked>Easy &nbsp;
+						<input id="input-hard" name="difficulty" type="radio">Hard
 
-						<label class="form-header">Speed</label><br>
-						<input id="input-timer-slow" name="speed" type="radio" checked>Slow
-						<input id="input-timer-fast" name="speed" type="radio">Fast<br>
+						<label class="form-header">Speed</label>
+						<input id="input-timer-slow" name="speed" type="radio" checked>Slow &nbsp;
+						<input id="input-timer-fast" name="speed" type="radio">Fast
 
-						<label class="form-header">Number of Questions</label><br>
+						<label class="form-header">Number of Questions</label>
 						<select id="select-num-questions">
 							<option value="5">5</option>
 							<option value="10">10</option>
@@ -54,9 +57,9 @@
 			<div id="bottom-row" class="row">
 				<div class="col-md-12">
 					<div id="buttons">
-						<button id="start-button" class="btn btn-primary btn-lg">Start</button>
-						<button id="replay-button" class="btn btn-primary btn-lg">Replay</button>
-						<button id="reset-button" class="btn btn-primary btn-lg">Change Settings</button>
+						<button id="start-button" class="button button-primary">Start</button>
+						<button id="replay-button" class="button button-primary">Replay</button>
+						<button id="reset-button" class="button button-primary">Change Settings</button>
 					</div>
 				</div>
 			</div>
@@ -68,9 +71,6 @@
 			</div>
 		</div>
 	</div>
-	<footer id="footer">
-		&copy; Copyright 2017 Michael Stange
-	</footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/javascript/app.js"></script>
