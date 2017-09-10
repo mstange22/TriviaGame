@@ -28,7 +28,7 @@ h2 {
 }
 
 #jumbotron {
-	height: 550px;
+	height: 520px;
 	color: black;
 	background-color: white;
 	background-repeat: no-repeat;
@@ -85,7 +85,6 @@ label.form-header {
 	margin-top: 20px;
 }
 
-
 @media screen and (max-width: 480px) {
 
 	#header, #jumbotron {
@@ -94,15 +93,23 @@ label.form-header {
 	}
 
 	#jumbotron {
-		height: 490px;
+		height: 480px;
 	}
 
 	#start-button {
 		margin-top: 10px;
 	}
 
+	#replay-button {
+		margin-top: 0px;
+	}
+
 	label.form-header {
 		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	h4 {
 		margin-bottom: 5px;
 	}
 }
