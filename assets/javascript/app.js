@@ -359,7 +359,7 @@ $(".input").on("click", function() {
 
 		$("#message").append("<h2>Quiz Complete</h2>");
 
-		$("#main-game-panel").css("height", "285px");
+		$("#main-game-panel").css("height", "255px");
 		$("#replay-button").css("display", "block");
 		$("#reset-button").css("display", "block");
 	}
@@ -379,7 +379,7 @@ $("#reset-button").click(function() {
 	isUnanswered = false;
 
 	$("#results").html("");
-	$("#timer").html("<h2>Select Game Settings</h2>");
+	$("#timer").html("<h3>Select Options</h3>");
 	$("#message").html("");
 
 	$("#start-form").css("display", "inline-block");
@@ -644,7 +644,7 @@ function decrement() {
 		else {
 
 			$("#message").append("<h2>Quiz Complete</h2>");
-			$("#main-game-panel").css("height", "285px");
+			$("#main-game-panel").css("height", "255px");
 			$("#reset-button").css("display", "block");
 			$("#replay-button").css("display", "block");
 		}

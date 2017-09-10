@@ -84,3 +84,22 @@ label.form-header {
 	display: none;
 	margin-top: 10px;
 }
+
+
+@media screen and (max-width: 767px) {
+
+	#header, #jumbotron {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+/*	#start-button {
+		margin-top: 10px;
+		display: block;
+	}*/
+
+	label.form-header {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+}
