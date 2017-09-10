@@ -357,9 +357,8 @@ $(".input").on("click", function() {
 
 	else {
 
-		$("#message").append("<h2>Quiz Complete</h2>");
+		$("#message").append("<h3><b>Quiz Complete</b></h3>");
 
-		$("#main-game-panel").css("height", "255px");
 		$("#replay-button").css("display", "block");
 		$("#reset-button").css("display", "block");
 	}
@@ -401,7 +400,6 @@ function refreshForNewQuestion() {
 
 function reset() {
 
-	$("#main-game-panel").css("height", "255px");
 	$("#replay-button").css("display", "none");
 	$("#reset-button").css("display", "none");
 
@@ -585,7 +583,7 @@ function displayGameResults() {
 	if(isUnanswered) {
 
 		$("#timer").html("<h2>Unanswered</h2>");
-		$("#message").append("<h4>The capital is of <b>" +
+		$("#message").html("<h4>The capital is of <b>" +
 					game[randomState].state + "</b> is <b>" +
 					game[randomState].answers[0].answer + "</b></h4>");
 		numUnanswered++;
@@ -604,9 +602,9 @@ function displayGameResults() {
 		else {
 
 		$("#timer").html("<h2>Incorrect</h2>");
-		$("#message").append("<h5>The capital is of <b>" +
+		$("#message").html("<h4>The capital is of <b>" +
 					game[randomState].state + "</b> is <b>" +
-					game[randomState].answers[0].answer + "</b></h5>");
+					game[randomState].answers[0].answer + "</b></h4>");
 		numIncorrect++;
 		correctAnswer = false;
 		}
@@ -643,8 +641,7 @@ function decrement() {
 
 		else {
 
-			$("#message").append("<h2>Quiz Complete</h2>");
-			$("#main-game-panel").css("height", "255px");
+			$("#message").append("<h3><b>Quiz Complete</b></h3>");
 			$("#reset-button").css("display", "block");
 			$("#replay-button").css("display", "block");
 		}
