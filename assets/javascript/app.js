@@ -463,9 +463,6 @@ $("#reset-button").click(function() {
 
 	reset();
 
-	// correctAnswer = false;
-	// isUnanswered = false;
-
 	$("#results").empty();
 	$("#timer").html("<h3>Select Options</h3>");
 	$("#message").empty();
@@ -475,9 +472,6 @@ $("#reset-button").click(function() {
 });
 
 function refreshForNewQuestion() {
-
-	// correctAnswer = false;
-	// isUnanswered = false;
 
 	timer = originalTimer;
 
@@ -514,7 +508,7 @@ function play() {
 
 	correctAnswer = false;
 	isUnanswered = false;
-	
+
 	askQuestion();
 }
 
@@ -551,7 +545,7 @@ function getQuestions() {
 
 					// ...get a new random capital and try again
 					tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
-																					isCorrect: false};
+																				isCorrect: false};
 				}				
 			}
 
@@ -564,7 +558,7 @@ function getQuestions() {
 
 					// get a new random capital
 					tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
-																					isCorrect: false};
+																				isCorrect: false};
 				}
 			}
 
@@ -578,7 +572,7 @@ function getQuestions() {
 
 					// get a new one and try again
 					tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
-																					isCorrect: false};
+																				isCorrect: false};
 				}
 			}
 
@@ -605,56 +599,62 @@ function getWorldQuestions() {
 
 	for(var i = 0; i < worldCapitals.length; i++) {
 		
-		tempQuestion = {state: worldCapitals[i].country, answers: [{answer: worldCapitals[i].capital, isCorrect: true}]};
+		tempQuestion = {state: worldCapitals[i].country, answers: [{answer: worldCapitals[i].capital,
+																			isCorrect: true}]};
 
 		game.push(tempQuestion);
 
-		// add capitals / decoys.
+		// get 3 answers for positions [1 - 3] in answers array
+		for(var j = 1; j < 4; j++) {
 
-		tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
-																			isCorrect: false};	
-
-		// if the first random capital is the same as the state capital...
-		while (tempAnswer.answer === game[i].answers[0].answer) {
-
-			// get a new random capital..
-			tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
-																			isCorrect: false};	
-		}
-
-		// if here, then it must be ok
-		game[i].answers.push(tempAnswer);
-
-		// do it again for the third element...
-		tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
-																			isCorrect: false};	
-
-		// if the first random capital is the same as the state capital AND first decoy.
-		while (tempAnswer.answer === game[i].answers[0].answer ||
-				tempAnswer.answer === game[i].answers[1].answer) {
-
-			// get a new random capital..
-			tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
+			// get a random capital
+			tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * worldCapitals.length)].capital,
 																			isCorrect: false};
-		}
-		
-		game[i].answers.push(tempAnswer);
-
-		// and again...
-		tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
+			// first time
+			if(j === 1) {
+				
+				tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * worldCapitals.length)].capital,
 																			isCorrect: false};
 
-		// Check all 3 previous elements...
-		while (tempAnswer.answer === game[i].answers[0].answer ||
-				tempAnswer.answer === game[i].answers[1].answer ||
-				tempAnswer.answer === game[i].answers[2].answer) {
+				// if the first random capital is the same as the correct capital...
+				while (tempAnswer.answer === game[i].answers[0].answer) {
 
-
-			tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
+					// ...get a new random capital and try again
+					tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * worldCapitals.length)].capital,
 																			isCorrect: false};
+				}				
+			}
+
+			// second time
+			if (j === 2) {
+				
+				// if the second random capital is the same as the state capital AND first decoy.
+				while (tempAnswer.answer === game[i].answers[0].answer ||
+									tempAnswer.answer === game[i].answers[1].answer) {
+
+					// get a new random capital
+					tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * worldCapitals.length)].capital,
+																			isCorrect: false};
+				}
+			}
+
+			// do it again for the third random capital
+			if (j === 3) {
+
+				// Check all 3 previous elements for duplicates
+				while (tempAnswer.answer === game[i].answers[0].answer ||
+									tempAnswer.answer === game[i].answers[1].answer ||
+									tempAnswer.answer === game[i].answers[2].answer) {
+
+					// get a new one and try again
+					tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * worldCapitals.length)].capital,
+																			isCorrect: false};
+				}
+			}
+
+			// if here, tempAnswer must not be a duplicate
+			game[i].answers.push(tempAnswer);
 		}
-		
-		game[i].answers.push(tempAnswer);
 	}
 }
 
