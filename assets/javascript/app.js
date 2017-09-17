@@ -1,11 +1,3 @@
-/*
- * State Capitals Trivia
- * Michael Stange
- * UCSD Coding Boot Camp
- * Assignment #5 
- */
-
-
 var maxQuestions = 50;
 var questionCounter = 0;
 var numCorrect = 0;
@@ -301,31 +293,120 @@ var capitals = [
     "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
 ];
 
+var worldCapitals = [
+   { country: "Chile", capital: "Santiago"},
+   { country: "Finland", capital: "Helsinki"},
+   { country: "Afghanistan", capital: "Kabul"},
+   { country: "Norway", capital: "Oslo"},
+   { country: "Somalia", capital: "Mogadishu"},
+   { country: "Kenya", capital: "Nairobi"},
+   { country: "Turkey", capital: "Ankara"},
+   { country: "France", capital: "Paris"},
+   { country: "Russia", capital: "Moscow"},
+   { country: "Canada", capital: "Ottawa"},
+   { country: "United States", capital: "Washington, D.C."},
+   { country: "China", capital: "Beijing"},
+   { country: "Japan", capital: "Tokyo"},
+   { country: "Phillipines", capital: "Manila"},
+   { country: "Brazil", capital: "Brasilia"},
+   { country: "Indonesia", capital: "Jakarta"},
+   { country: "India", capital: "New Delhi"},
+   { country: "Argentina", capital: "Buenos Aires"},
+   { country: "Kazakhstan", capital: "Astana"},
+   { country: "Ethiopia", capital: "Addis Ababa"},
+   { country: "Italy", capital: "Rome"},
+   { country: "Taiwan", capital: "Taipei"},
+   { country: "Jordan", capital: "Amman"},
+   { country: "South Africa", capital: "Pretoria"},
+   { country: "Greece", capital: "Athens"},
+   { country: "Cuba", capital: "Havana"},
+   { country: "Cambodia", capital: "Phnom Penh"},
+   { country: "South Korea", capital: "Seoul"},
+   { country: "Romania", capital: "Bucharest"},
+   { country: "Venezuela", capital: "Caracas"},
+   { country: "Morocco", capital: "Rabat"},
+   { country: "Austria", capital: "Vienna"},
+   { country: "Mexico", capital: "Mexico City"},
+   { country: "Saudi Arabia", capital: "Riyadh"},
+   { country: "Germany", capital: "Berlin"},
+   { country: "Indonesia", capital: "Jakarta"},
+   { country: "Sudan", capital: "Khartoum"},
+   { country: "Algeria", capital: "Algiers"},
+   { country: "Spain", capital: "Madrid"},
+   { country: "North Korea", capital: "Pyongyang"},
+   { country: "Syria", capital: "Damascus"},
+   { country: "Iran", capital: "Tehran"},
+   { country: "United Kingdom", capital: "London"},
+   { country: "Peru", capital: "Lima"},
+   { country: "Thailand", capital: "Bangkok"},
+   { country: "Mongolia", capital: "Ulaanbaatar"},
+   { country: "Costa Rica", capital: "San Jose"},
+   { country: "Australia", capital: "Canberra"},
+   { country: "New Zealand", capital: "Wellington"},
+   { country: "Honduras", capital: "Tegucigalpa"},
+   { country: "Czech Republic", capital: "Prague"},
+   { country: "Dominican Republic", capital: "Santo Domingo"},
+   { country: "Bulgaria", capital: "Sofia"},
+   { country: "Belgium", capital: "Brussels"},
+   { country: "Armenia", capital: "Yerevan"},
+   { country: "Sierra Leone", capital: "Freetown"},
+   { country: "Ireland", capital: "Dublin"},
+   { country: "Georgia", capital: "Tbilisi"},
+   { country: "Senegal", capital: "Dakar"},
+   { country: "Nepal", capital: "Kathmandu"},
+   { country: "Guatemala", capital: "Guatemala City"},
+   { country: "Haiti", capital: "Port-au-Prince"},
+   { country: "Libya", capital: "Tripoli"},
+   { country: "Uruguay", capital: "Montevideo"},
+   { country: "Poland", capital: "Warsaw"},
+   { country: "Belarus", capital: "Minsk"},
+   { country: "Uganda", capital: "Kampala"},
+   { country: "Ghana", capital: "Accra"},
+   { country: "Lebanon", capital: "Beirut"},
+   { country: "Sweden", capital: "Stockholm"},
+   { country: "Ecuador", capital: "Quito"},
+   { country: "Qatar", capital: "Doha"},
+   { country: "Yemen", capital: "Sana'a"},
+   { country: "Malaysia", capital: "Kuala Lumpur"},
+   { country: "Colombia", capital: "Bogota"},
+   { country: "Viet Nam", capital: "Hanoi"},
+   { country: "Bolivia", capital: "La Paz"},
+   { country: "Hungary", capital: "Budapest"},
+   { country: "Egypt", capital: "Cairo"},
+   { country: "Pakistan", capital: "Islamabad"},
+];
+
 // array of indexes for random order of states displayed
 var randomStateNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 						 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
 						 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
 						 41, 42, 43, 44, 45, 46, 47, 48, 49];
+
 var randomState = 0;
 
-// Objects for each answer for a given state
-var answer1 = {};
-var answer2 = {};
-var answer3 = {};
-var answer4 = {};
+// Array to store answer objects for each answer for a given state
+var answers = [];
 
 $("#start-button").click(function() {
 
-	$("#start-form").css("display", "none");
-	$("#start-button").css("display", "none");
+	$("#start-form").hide();
+	$("#start-button").hide();
 
 	if($("#input-easy")[0].checked) {
 	
 		getQuestions();	
 	}
 
-	else {
+	else if($("#input-hard")[0].checked) {
+
 		game = hardGame;
+	}
+
+	else {
+
+		// world capitals
+		getWorldQuestions();
+
 	}
 
 	if($("#input-timer-slow")[0].checked) {
@@ -347,13 +428,13 @@ $(".input").on("click", function() {
 
 	stop();
 
-	evaluateAnswers(this.children[0].innerText);
+	evaluateAnswers($(this).find("button").text().toUpperCase());
 	displayGameResults(this);
 
 	if (questionCounter < maxQuestions) {
 
 		// setTimeout(refreshForNewQuestion, 1000);
-		$("#continue-button").css("display", "block");
+		$("#continue-button").show();
 	}
 
 	else {
@@ -508,6 +589,76 @@ function getQuestions() {
 	}
 }
 
+
+/*
+ * getWorldQuestions()
+ * Builds the game array by first iterating over the worldCapitals array, then
+ * pushing random capitals into the answers array (after confirming no duplicates).
+ */
+function getWorldQuestions() {
+
+	maxQuestions = worldCapitals.length;
+
+	game = [];
+
+	var tempQuestion = {};
+	var tempAnswer = {};
+
+	for(var i = 0; i < worldCapitals.length; i++) {
+		
+		tempQuestion = {state: worldCapitals[i].country, answers: [{answer: worldCapitals[i].capital, isCorrect: true}]};
+
+		game.push(tempQuestion);
+
+		// add capitals / decoys.
+
+		tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
+																			isCorrect: false};	
+
+		// if the first random capital is the same as the state capital...
+		while (tempAnswer.answer === game[i].answers[0].answer) {
+
+			// get a new random capital..
+			tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
+																			isCorrect: false};	
+		}
+
+		// if here, then it must be ok
+		game[i].answers.push(tempAnswer);
+
+		// do it again for the third element...
+		tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
+																			isCorrect: false};	
+
+		// if the first random capital is the same as the state capital AND first decoy.
+		while (tempAnswer.answer === game[i].answers[0].answer ||
+				tempAnswer.answer === game[i].answers[1].answer) {
+
+			// get a new random capital..
+			tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
+																			isCorrect: false};
+		}
+		
+		game[i].answers.push(tempAnswer);
+
+		// and again...
+		tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
+																			isCorrect: false};
+
+		// Check all 3 previous elements...
+		while (tempAnswer.answer === game[i].answers[0].answer ||
+				tempAnswer.answer === game[i].answers[1].answer ||
+				tempAnswer.answer === game[i].answers[2].answer) {
+
+
+			tempAnswer = {answer: worldCapitals[Math.floor(Math.random() * capitals.length)].capital,
+																			isCorrect: false};
+		}
+		
+		game[i].answers.push(tempAnswer);
+	}
+}
+
 /*
  * askQuestion()
  * Display the state and then randomly display the 4 possible answers.
@@ -525,21 +676,17 @@ function askQuestion() {
 	$("#state").html("<h2>" + game[randomState].state + "</h2>");
 
 	// get the 4 possible answers in random order
-	answer1 = game[randomState].answers[randomNumbers.splice(Math.floor(Math.random() *
-													randomNumbers.length), 1)];
-	answer2 = game[randomState].answers[randomNumbers.splice(Math.floor(Math.random() *
-													randomNumbers.length), 1)];
-	answer3 = game[randomState].answers[randomNumbers.splice(Math.floor(Math.random() *
-													randomNumbers.length), 1)];
-	answer4 = game[randomState].answers[randomNumbers.splice(Math.floor(Math.random() *
-													randomNumbers.length), 1)];
+	for(var i = 0; i < 4; i++) {
+		answers[i] = game[randomState].answers[randomNumbers.splice(
+							Math.floor(Math.random() * randomNumbers.length), 1)];
+	}
 
 	// display the answers
 	$(".input").css("min-height", "50px");
-	$("#input1").html("<button class=\"answer button button-primary\">" + answer1.answer + "</button>");
-	$("#input2").html("<button class=\"answer button button-primary\">" + answer2.answer + "</button>");
-	$("#input3").html("<button class=\"answer button button-primary\">" + answer3.answer + "</button>");
-	$("#input4").html("<button class=\"answer button button-primary\">" + answer4.answer + "</button>");
+	$("#input1").html("<button class=\"answer button button-primary\">" + answers[0].answer + "</button>");
+	$("#input2").html("<button class=\"answer button button-primary\">" + answers[1].answer + "</button>");
+	$("#input3").html("<button class=\"answer button button-primary\">" + answers[2].answer + "</button>");
+	$("#input4").html("<button class=\"answer button button-primary\">" + answers[3].answer + "</button>");
 
 	questionCounter++;
 }
@@ -553,18 +700,18 @@ function askQuestion() {
  */
 function evaluateAnswers(answer) {
 
-	if(answer === answer1.answer.toUpperCase()) {
-		correctAnswer = answer1.isCorrect;
+	if(answer === answers[0].answer.toUpperCase()) {
+		correctAnswer = answers[0].isCorrect;
 	}
 
-	else if(answer === answer2.answer.toUpperCase()) {
-		correctAnswer = answer2.isCorrect;
+	else if(answer === answers[1].answer.toUpperCase()) {
+		correctAnswer = answers[1].isCorrect;
 	}
-	else if(answer === answer3.answer.toUpperCase()) {
-		correctAnswer = answer3.isCorrect;
+	else if(answer === answers[2].answer.toUpperCase()) {
+		correctAnswer = answers[2].isCorrect;
 	}
-	else if(answer === answer4.answer.toUpperCase()) {
-		correctAnswer = answer4.isCorrect;
+	else if(answer === answers[3].answer.toUpperCase()) {
+		correctAnswer = answers[3].isCorrect;
 	}
 
 	else {
@@ -644,14 +791,14 @@ function decrement() {
 		if (questionCounter < maxQuestions) {
 
 			// setTimeout(refreshForNewQuestion, 1000);
-			$("#continue-button").css("display", "block");
+			$("#continue-button").show();
 		}
 
 		else {
 
 			$("#message").append("<h3><b>Quiz Complete</b></h3>");
-			$("#reset-button").css("display", "block");
-			$("#replay-button").css("display", "block");
+			$("#reset-button").show();
+			$("#replay-button").show();
 		}
 	}
 }
