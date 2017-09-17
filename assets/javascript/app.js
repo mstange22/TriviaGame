@@ -8,7 +8,6 @@ var originalTimer = timer;
 var intervalId;
 var correctAnswer = false;
 var isUnanswered = false;
-var correctCapital = "";
 var isEasy = true;
 
 // The game array that will hold all of the states and answers
@@ -294,93 +293,89 @@ var capitals = [
 ];
 
 var worldCapitals = [
-   { country: "Chile", capital: "Santiago"},
-   { country: "Finland", capital: "Helsinki"},
    { country: "Afghanistan", capital: "Kabul"},
-   { country: "Norway", capital: "Oslo"},
-   { country: "Somalia", capital: "Mogadishu"},
-   { country: "Kenya", capital: "Nairobi"},
-   { country: "Turkey", capital: "Ankara"},
-   { country: "France", capital: "Paris"},
-   { country: "Russia", capital: "Moscow"},
-   { country: "Canada", capital: "Ottawa"},
-   { country: "United States", capital: "Washington, D.C."},
-   { country: "China", capital: "Beijing"},
-   { country: "Japan", capital: "Tokyo"},
-   { country: "Phillipines", capital: "Manila"},
-   { country: "Brazil", capital: "Brasilia"},
-   { country: "Indonesia", capital: "Jakarta"},
-   { country: "India", capital: "New Delhi"},
-   { country: "Argentina", capital: "Buenos Aires"},
-   { country: "Kazakhstan", capital: "Astana"},
-   { country: "Ethiopia", capital: "Addis Ababa"},
-   { country: "Italy", capital: "Rome"},
-   { country: "Taiwan", capital: "Taipei"},
-   { country: "Jordan", capital: "Amman"},
-   { country: "South Africa", capital: "Pretoria"},
-   { country: "Greece", capital: "Athens"},
-   { country: "Cuba", capital: "Havana"},
-   { country: "Cambodia", capital: "Phnom Penh"},
-   { country: "South Korea", capital: "Seoul"},
-   { country: "Romania", capital: "Bucharest"},
-   { country: "Venezuela", capital: "Caracas"},
-   { country: "Morocco", capital: "Rabat"},
-   { country: "Austria", capital: "Vienna"},
-   { country: "Mexico", capital: "Mexico City"},
-   { country: "Saudi Arabia", capital: "Riyadh"},
-   { country: "Germany", capital: "Berlin"},
-   { country: "Indonesia", capital: "Jakarta"},
-   { country: "Sudan", capital: "Khartoum"},
    { country: "Algeria", capital: "Algiers"},
-   { country: "Spain", capital: "Madrid"},
-   { country: "North Korea", capital: "Pyongyang"},
-   { country: "Syria", capital: "Damascus"},
-   { country: "Iran", capital: "Tehran"},
-   { country: "United Kingdom", capital: "London"},
-   { country: "Peru", capital: "Lima"},
-   { country: "Thailand", capital: "Bangkok"},
-   { country: "Mongolia", capital: "Ulaanbaatar"},
-   { country: "Costa Rica", capital: "San Jose"},
+   { country: "Argentina", capital: "Buenos Aires"},
+   { country: "Armenia", capital: "Yerevan"},
    { country: "Australia", capital: "Canberra"},
-   { country: "New Zealand", capital: "Wellington"},
-   { country: "Honduras", capital: "Tegucigalpa"},
+   { country: "Austria", capital: "Vienna"},
+   { country: "Belarus", capital: "Minsk"},
+   { country: "Belgium", capital: "Brussels"},
+   { country: "Bolivia", capital: "La Paz"},
+   { country: "Brazil", capital: "Brasilia"},
+   { country: "Bulgaria", capital: "Sofia"},
+   { country: "Cambodia", capital: "Phnom Penh"},
+   { country: "Canada", capital: "Ottawa"},
+   { country: "China", capital: "Beijing"},
+   { country: "Chile", capital: "Santiago"},
+   { country: "Colombia", capital: "Bogota"},
+   { country: "Costa Rica", capital: "San Jose"},
+   { country: "Cuba", capital: "Havana"},
    { country: "Czech Republic", capital: "Prague"},
    { country: "Dominican Republic", capital: "Santo Domingo"},
-   { country: "Bulgaria", capital: "Sofia"},
-   { country: "Belgium", capital: "Brussels"},
-   { country: "Armenia", capital: "Yerevan"},
-   { country: "Sierra Leone", capital: "Freetown"},
-   { country: "Ireland", capital: "Dublin"},
+   { country: "Egypt", capital: "Cairo"},
+   { country: "Ecuador", capital: "Quito"},
+   { country: "Ethiopia", capital: "Addis Ababa"},
+   { country: "Finland", capital: "Helsinki"},
+   { country: "France", capital: "Paris"},
    { country: "Georgia", capital: "Tbilisi"},
-   { country: "Senegal", capital: "Dakar"},
-   { country: "Nepal", capital: "Kathmandu"},
+   { country: "Germany", capital: "Berlin"},
+   { country: "Ghana", capital: "Accra"},
+   { country: "Greece", capital: "Athens"},
    { country: "Guatemala", capital: "Guatemala City"},
    { country: "Haiti", capital: "Port-au-Prince"},
-   { country: "Libya", capital: "Tripoli"},
-   { country: "Uruguay", capital: "Montevideo"},
-   { country: "Poland", capital: "Warsaw"},
-   { country: "Belarus", capital: "Minsk"},
-   { country: "Uganda", capital: "Kampala"},
-   { country: "Ghana", capital: "Accra"},
-   { country: "Lebanon", capital: "Beirut"},
-   { country: "Sweden", capital: "Stockholm"},
-   { country: "Ecuador", capital: "Quito"},
-   { country: "Qatar", capital: "Doha"},
-   { country: "Yemen", capital: "Sana'a"},
-   { country: "Malaysia", capital: "Kuala Lumpur"},
-   { country: "Colombia", capital: "Bogota"},
-   { country: "Viet Nam", capital: "Hanoi"},
-   { country: "Bolivia", capital: "La Paz"},
+   { country: "Honduras", capital: "Tegucigalpa"},
    { country: "Hungary", capital: "Budapest"},
-   { country: "Egypt", capital: "Cairo"},
+   { country: "India", capital: "New Delhi"},
+   { country: "Indonesia", capital: "Jakarta"},
+   { country: "Italy", capital: "Rome"},
+   { country: "Iran", capital: "Tehran"},
+   { country: "Ireland", capital: "Dublin"},
+   { country: "Japan", capital: "Tokyo"},
+   { country: "Jordan", capital: "Amman"},
+   { country: "Kazakhstan", capital: "Astana"},
+   { country: "Kenya", capital: "Nairobi"},
+   { country: "Lebanon", capital: "Beirut"},
+   { country: "Libya", capital: "Tripoli"},
+   { country: "Malaysia", capital: "Kuala Lumpur"},
+   { country: "Mexico", capital: "Mexico City"},
+   { country: "Mongolia", capital: "Ulaanbaatar"},
+   { country: "Morocco", capital: "Rabat"},
+   { country: "Nepal", capital: "Kathmandu"},
+   { country: "New Zealand", capital: "Wellington"},
+   { country: "North Korea", capital: "Pyongyang"},
+   { country: "Norway", capital: "Oslo"},
    { country: "Pakistan", capital: "Islamabad"},
+   { country: "Peru", capital: "Lima"},
+   { country: "Phillipines", capital: "Manila"},
+   { country: "Poland", capital: "Warsaw"},
+   { country: "Qatar", capital: "Doha"},
+   { country: "Romania", capital: "Bucharest"},
+   { country: "Russia", capital: "Moscow"},
+   { country: "Saudi Arabia", capital: "Riyadh"},
+   { country: "Senegal", capital: "Dakar"},
+   { country: "Sierra Leone", capital: "Freetown"},
+   { country: "Somalia", capital: "Mogadishu"},
+   { country: "South Africa", capital: "Pretoria"},
+   { country: "South Korea", capital: "Seoul"},
+   { country: "Spain", capital: "Madrid"},
+   { country: "Sudan", capital: "Khartoum"},
+   { country: "Sweden", capital: "Stockholm"},
+   { country: "Syria", capital: "Damascus"},
+   { country: "Taiwan", capital: "Taipei"},
+   { country: "Thailand", capital: "Bangkok"},
+   { country: "Turkey", capital: "Ankara"},
+   { country: "Uganda", capital: "Kampala"},
+   { country: "United Kingdom", capital: "London"},
+   { country: "United States", capital: "Washington, D.C."},
+   { country: "Uruguay", capital: "Montevideo"},
+   { country: "Venezuela", capital: "Caracas"},
+   { country: "Viet Nam", capital: "Hanoi"},
+   { country: "Yemen", capital: "Sana'a"},
 ];
 
-// array of indexes for random order of states displayed
-var randomStateNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-						 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-						 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-						 41, 42, 43, 44, 45, 46, 47, 48, 49];
+// array for dynamically-created indexes for random order of states displayed
+var randomStateNumber = [];
 
 var randomState = 0;
 
@@ -406,7 +401,6 @@ $("#start-button").click(function() {
 
 		// world capitals
 		getWorldQuestions();
-
 	}
 
 	if($("#input-timer-slow")[0].checked) {
@@ -420,6 +414,11 @@ $("#start-button").click(function() {
 	}
 
 	maxQuestions = parseInt($("#select-num-questions").val());
+
+	// build randomStateNumber
+	for(var i = 0; i < game.length; i++) {
+		randomStateNumber.push(i);
+	}
 	
 	play();
 });
@@ -429,12 +428,12 @@ $(".input").on("click", function() {
 	stop();
 
 	evaluateAnswers($(this).find("button").text().toUpperCase());
-	displayGameResults(this);
+	displayGameResults();
 
 	if (questionCounter < maxQuestions) {
 
-		// setTimeout(refreshForNewQuestion, 1000);
-		$("#continue-button").show();
+		setTimeout(refreshForNewQuestion, 1000);
+		// $("#continue-button").show();
 	}
 
 	else {
@@ -455,6 +454,12 @@ $("#continue-button").click(function() {
 $("#replay-button").click(function() {
 
 	reset();
+
+	// build randomStateNumber
+	for(var i = 0; i < game.length; i++) {
+		randomStateNumber.push(i);
+	}
+
 	refreshForNewQuestion();
 });
 
@@ -465,9 +470,9 @@ $("#reset-button").click(function() {
 	correctAnswer = false;
 	isUnanswered = false;
 
-	$("#results").html("");
+	$("#results").empty();
 	$("#timer").html("<h3>Select Options</h3>");
-	$("#message").html("");
+	$("#message").empty();
 
 	$("#start-form").show();
 	$("#start-button").show();
@@ -481,26 +486,22 @@ function refreshForNewQuestion() {
 
 	timer = originalTimer;
 
-	$("#results").html("");
+	$("#results").empty();
 
 	play();
 }
 
 function reset() {
 
-	$("#replay-button").css("display", "none");
-	$("#reset-button").css("display", "none");
+	$("#replay-button").hide();
+	$("#reset-button").hide();
 
+	randomStateNumber = [];
+	randomState = 0;
 	numCorrect = 0;
 	numIncorrect = 0;
 	numUnanswered = 0;
 	questionCounter = 0;
-
-	randomStateNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-						 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-						 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-						 41, 42, 43, 44, 45, 46, 47, 48, 49];
-	randomState = 0;
 }
 
 /*
@@ -511,8 +512,8 @@ function play() {
 
 	var time = timeConverter(timer);
 	$("#timer").html("<h2>" + time + "</h2>");
-	$("#timer").css("display", "block");
-	$("#message").html("");
+	$("#timer").show();
+	$("#message").empty();
 
 	intervalId = setInterval(decrement, 1000);
 
@@ -665,10 +666,8 @@ function getWorldQuestions() {
  */
 function askQuestion() {
 
-	randomState = randomStateNumber.splice(Math.floor(Math.random() *
-													randomStateNumber.length), 1);
-	// capture the correct capital
-	correctCapital = game[questionCounter].answers[0];
+	randomState = parseInt(randomStateNumber.splice(Math.floor(Math.random() *
+													randomStateNumber.length), 1));
 
 	var randomNumbers = [0, 1, 2, 3];
 
@@ -726,7 +725,7 @@ function evaluateAnswers(answer) {
  */
 function displayGameResults() {
 
-	$("#timer").html("");
+	$("#timer").empty();
 	$("#state").empty();
 	$("#input1").empty();
 	$("#input2").empty();
