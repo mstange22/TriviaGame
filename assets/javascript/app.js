@@ -22,7 +22,8 @@ var isEasy = true;
 // The game array that will hold all of the states and answers
 var game = [];
 
-var hardGame = [{state: "Alabama", answers: [ {answer: "Montgomery", isCorrect: true},
+var hardGame = [
+			{state: "Alabama", answers: [ {answer: "Montgomery", isCorrect: true},
 										{answer: "Tuscaloosa", iscorrect: false},
 										{answer: "Birmingham", isCorrect: false},
 										{answer: "Jackson", isCorrect: false} ]},
@@ -300,7 +301,6 @@ var capitals = [
     "Richmond", "Olympia", "Charleston", "Madison", "Cheyenne"
 ];
 
-
 // array of indexes for random order of states displayed
 var randomStateNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 						 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
@@ -352,7 +352,8 @@ $(".input").on("click", function() {
 
 	if (questionCounter < maxQuestions) {
 
-		setTimeout(refreshForNewQuestion, 1000);
+		// setTimeout(refreshForNewQuestion, 1000);
+		$("#continue-button").css("display", "block");
 	}
 
 	else {
@@ -362,6 +363,12 @@ $(".input").on("click", function() {
 		$("#replay-button").css("display", "block");
 		$("#reset-button").css("display", "block");
 	}
+});
+
+$("#continue-button").click(function() {
+
+	$("#continue-button").hide();
+	refreshForNewQuestion();
 });
 
 $("#replay-button").click(function() {
@@ -381,8 +388,8 @@ $("#reset-button").click(function() {
 	$("#timer").html("<h3>Select Options</h3>");
 	$("#message").html("");
 
-	$("#start-form").css("display", "block");
-	$("#start-button").css("display", "block");
+	$("#start-form").show();
+	$("#start-button").show();
 });
 
 
@@ -636,7 +643,8 @@ function decrement() {
 
 		if (questionCounter < maxQuestions) {
 
-			setTimeout(refreshForNewQuestion, 1000);
+			// setTimeout(refreshForNewQuestion, 1000);
+			$("#continue-button").css("display", "block");
 		}
 
 		else {
