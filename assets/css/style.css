@@ -70,7 +70,9 @@ label.form-header {
 }
 
 .input {
+	display: none;
 	margin-bottom: 10px;
+	min-height: 50px;
 }
 
 #input1 {

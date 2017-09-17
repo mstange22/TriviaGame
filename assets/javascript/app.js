@@ -433,15 +433,11 @@ $(".input").on("click", function() {
 	if (questionCounter < maxQuestions) {
 
 		setTimeout(refreshForNewQuestion, 1000);
-		// $("#continue-button").show();
 	}
 
 	else {
 
-		$("#message").append("<h3><b>Quiz Complete</b></h3>");
-
-		$("#replay-button").css("display", "block");
-		$("#reset-button").css("display", "block");
+		displayEndGame();
 	}
 });
 
@@ -467,8 +463,8 @@ $("#reset-button").click(function() {
 
 	reset();
 
-	correctAnswer = false;
-	isUnanswered = false;
+	// correctAnswer = false;
+	// isUnanswered = false;
 
 	$("#results").empty();
 	$("#timer").html("<h3>Select Options</h3>");
@@ -478,11 +474,10 @@ $("#reset-button").click(function() {
 	$("#start-button").show();
 });
 
-
 function refreshForNewQuestion() {
 
-	correctAnswer = false;
-	isUnanswered = false;
+	// correctAnswer = false;
+	// isUnanswered = false;
 
 	timer = originalTimer;
 
@@ -517,14 +512,17 @@ function play() {
 
 	intervalId = setInterval(decrement, 1000);
 
+	correctAnswer = false;
+	isUnanswered = false;
+	
 	askQuestion();
 }
 
 /*
  * getQuestions()
- * Builds the game array by first iterating over the states and capitals array, then
- * pushing random capitals into the answers array (after confirming no duplicates).
- * Tedious, but it works.
+ * Builds the game array by first iterating over the states and capitals array to
+ * capture a state and the correct capital.  Then pushes random capitals into the
+ * remaining 3 positions in the answers array (after confirming no duplicates).
  */
 function getQuestions() {
 
@@ -539,54 +537,54 @@ function getQuestions() {
 
 		game.push(tempQuestion);
 
-		// add capitals / decoys.
+		// get 3 answers for positions [1 - 3] in answers array
+		for(var j = 1; j < 4; j++) {
 
-		tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
-																			isCorrect: false};	
-
-		// if the first random capital is the same as the state capital...
-		while (tempAnswer.answer === game[i].answers[0].answer) {
-
-			// get a new random capital..
+			// get a random capital
 			tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
-																			isCorrect: false};
+																				isCorrect: false};
+			// first time
+			if(j === 1) {
+
+				// if the first random capital is the same as the correct capital...
+				while (tempAnswer.answer === game[i].answers[0].answer) {
+
+					// ...get a new random capital and try again
+					tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
+																					isCorrect: false};
+				}				
+			}
+
+			// second time
+			if (j === 2) {
+				
+				// if the second random capital is the same as the state capital AND first decoy.
+				while (tempAnswer.answer === game[i].answers[0].answer ||
+									tempAnswer.answer === game[i].answers[1].answer) {
+
+					// get a new random capital
+					tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
+																					isCorrect: false};
+				}
+			}
+
+			// do it again for the third random capital
+			if (j === 3) {
+
+				// Check all 3 previous elements for duplicates
+				while (tempAnswer.answer === game[i].answers[0].answer ||
+									tempAnswer.answer === game[i].answers[1].answer ||
+									tempAnswer.answer === game[i].answers[2].answer) {
+
+					// get a new one and try again
+					tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
+																					isCorrect: false};
+				}
+			}
+
+			// if here, tempAnswer must not be a duplicate
+			game[i].answers.push(tempAnswer);
 		}
-
-		// if here, then it must be ok
-		game[i].answers.push(tempAnswer);
-
-		// do it again for the third element...
-
-		tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
-																			isCorrect: false};	
-
-		// if the first random capital is the same as the state capital AND first decoy.
-		while (tempAnswer.answer === game[i].answers[0].answer ||
-				tempAnswer.answer === game[i].answers[1].answer) {
-
-			// get a new random capital..
-			tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
-																			isCorrect: false};
-		}
-		
-		game[i].answers.push(tempAnswer);
-
-		// and again...
-
-		tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
-																			isCorrect: false};	
-
-		// Check all 3 previous elements...
-		while (tempAnswer.answer === game[i].answers[0].answer ||
-				tempAnswer.answer === game[i].answers[1].answer ||
-				tempAnswer.answer === game[i].answers[2].answer) {
-
-			// get a new random capital..
-			tempAnswer = {answer: capitals[Math.floor(Math.random() * capitals.length)],
-																			isCorrect: false};
-		}
-		
-		game[i].answers.push(tempAnswer);
 	}
 }
 
@@ -681,12 +679,11 @@ function askQuestion() {
 	}
 
 	// display the answers
-	$(".input").css("min-height", "50px");
 	$("#input1").html("<button class=\"answer button button-primary\">" + answers[0].answer + "</button>");
 	$("#input2").html("<button class=\"answer button button-primary\">" + answers[1].answer + "</button>");
 	$("#input3").html("<button class=\"answer button button-primary\">" + answers[2].answer + "</button>");
 	$("#input4").html("<button class=\"answer button button-primary\">" + answers[3].answer + "</button>");
-
+	$(".input").show();
 	questionCounter++;
 }
 
@@ -727,18 +724,17 @@ function displayGameResults() {
 
 	$("#timer").empty();
 	$("#state").empty();
-	$("#input1").empty();
-	$("#input2").empty();
-	$("#input3").empty();
-	$("#input4").empty();
-	$(".input").css("min-height", "0");
+	$(".input").hide();
 
 	if(isUnanswered) {
 
-		$("#timer").html("<h2>Unanswered</h2>");
-		$("#message").html("<h4>The capital is of <b>" +
-					game[randomState].state + "</b> is <b>" +
-					game[randomState].answers[0].answer + "</b></h4>");
+		$("#timer").html("<h2><span class=\"status\">Unanswered</span></h2>");
+		$(".status").css("position", "relative");
+		$(".status").animate({fontSize: "3.6rem"}, "fast");
+		$(".status").animate({fontSize: "4.2rem"}, "fast");
+		$("#message").html("<h4>The capital of <b>" +
+							game[randomState].state + "</b> is <b>" +
+							game[randomState].answers[0].answer + "</b></h4>");
 		numUnanswered++;
 		isUnanswered = false;
 	}
@@ -747,15 +743,21 @@ function displayGameResults() {
 
 		if(correctAnswer) {
 
-			$("#timer").html("<h2>Correct!</h2>");
+			$("#timer").html("<h2><span class=\"status\">Correct!</span></h2>");
+			$(".status").css("position", "relative");
+			$(".status").animate({fontSize: "3.6rem"}, "fast");
+			$(".status").animate({fontSize: "4.2rem"}, "fast");
 			numCorrect++;
 			correctAnswer = false;
 		}
 
 		else {
 
-		$("#timer").html("<h2>Incorrect</h2>");
-		$("#message").html("<h4>The capital is of <b>" +
+		$("#timer").html("<h2><span class=\"status\">Incorrect</span></h2>");
+		$(".status").css("position", "relative");
+		$(".status").animate({fontSize: "3.6rem"}, "fast");
+		$(".status").animate({fontSize: "4.2rem"}, "fast");
+		$("#message").html("<h4>The capital of <b>" +
 					game[randomState].state + "</b> is <b>" +
 					game[randomState].answers[0].answer + "</b></h4>");
 		numIncorrect++;
@@ -795,11 +797,19 @@ function decrement() {
 
 		else {
 
-			$("#message").append("<h3><b>Quiz Complete</b></h3>");
-			$("#reset-button").show();
-			$("#replay-button").show();
+			displayEndGame();
 		}
 	}
+}
+
+function displayEndGame() {
+
+	$("#message").append("<h3><span id=\"complete\"><b>Quiz Complete</b></span></h3>");
+	$("#complete").css("position", "relative");
+	$("#complete").animate({fontSize: "2.8rem"}, "fast");
+	$("#complete").animate({fontSize: "3.6rem"}, "fast");
+	$("#replay-button").css("display", "block");
+	$("#reset-button").css("display", "block");
 }
 
 function timeConverter(t) {
