@@ -382,8 +382,10 @@ var randomState = 0;
 // Array to store answer objects for each answer for a given state
 var answers = [];
 
-$("#start-button").click(function() {
+$("#start-button").click(function(event) {
 
+	event.preventDefault();
+	
 	$("#start-form").hide();
 	$("#start-button").hide();
 
@@ -432,7 +434,15 @@ $(".input").on("click", function() {
 
 	if (questionCounter < maxQuestions) {
 
-		setTimeout(refreshForNewQuestion, 1000);
+		if(correctAnswer) {
+
+			setTimeout(refreshForNewQuestion, 1000);
+		}
+
+		else {
+
+			$("#continue-button").show();
+		}
 	}
 
 	else {
@@ -748,7 +758,6 @@ function displayGameResults() {
 			$(".status").animate({fontSize: "3.6rem"}, "fast");
 			$(".status").animate({fontSize: "4.2rem"}, "fast");
 			numCorrect++;
-			correctAnswer = false;
 		}
 
 		else {
@@ -758,10 +767,9 @@ function displayGameResults() {
 		$(".status").animate({fontSize: "3.6rem"}, "fast");
 		$(".status").animate({fontSize: "4.2rem"}, "fast");
 		$("#message").html("<h4>The capital of <b>" +
-					game[randomState].state + "</b> is <b>" +
-					game[randomState].answers[0].answer + "</b></h4>");
+									game[randomState].state + "</b> is <b>" +
+									game[randomState].answers[0].answer + "</b></h4>");
 		numIncorrect++;
-		correctAnswer = false;
 		}
 	}
 
